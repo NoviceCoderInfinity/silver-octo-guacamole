@@ -1,24 +1,16 @@
 """Core video -> multi-style caption pipeline.
 
-Architecture (style-specialist + best-of-2 + facts-grounding + critique/repair, shipped
-after beating the previous describe-then-style pipeline 58.3% in blind pairwise judging
-on 30s-2min clips, then layering in two more stages):
+Architecture (style-specialist + best-of-2 + facts-grounding + optional critique/repair;
+Gemini may own the describe step when DESCRIBE_BACKEND=gemini):
 
-  1. Extract evenly spaced frames, ask the VLM for a factual description PLUS a list of
-     concrete, independently-checkable facts (one structured-output call).
+  1. Extract evenly spaced frames. Ask Gemini (full video) OR Claude (frames) for a
+     factual description PLUS concrete checkable facts.
   2. One SPECIALIST call per requested style (persona + tone exemplars + facts) writes
      two candidate captions taking different angles.
   3. One frame-grounded SELECTION call sees the actual frames plus all candidates and
      picks the best caption per style (accuracy to pixels + facts + unmistakable tone).
-  4. One CRITIQUE call scores the selected captions 1-5 accuracy/tone_fit against the
-     frames (same rubric judge.py uses); any caption scoring below threshold on either
-     axis — or tripping the deterministic tech-word guard on humorous_non_tech — gets
-     rewritten, once, in a batched REPAIR call fed the critique's notes. Each rewrite
-     is re-critiqued and only kept if it scores at least as well as the original.
-
-Every stage falls back to the previous path on failure, so a task can never end up with
-empty captions because of the extra machinery, and critique/repair can never make a
-result worse than skipping it (any exception there keeps the pre-critique captions).
+  4. Optional CRITIQUE/REPAIR (ENABLE_CRITIQUE_REPAIR) — off by default for the Gemini
+     hybrid so describe-backend changes can be A/B'd cleanly against Arush's baseline.
 """
 import json
 import os
@@ -421,24 +413,27 @@ def repair_weak_captions(captions: dict, critique: dict, description: str, facts
     return result
 
 
+def _frames_b64_from_path(video_path: str) -> list[str]:
+    """Sample evenly spaced JPEG frames from an on-disk clip; return raw base64."""
+    duration = get_duration_seconds(video_path)
+    num_frames = choose_num_frames(
+        duration, config.SECONDS_PER_FRAME, config.MIN_FRAMES, config.MAX_FRAMES,
+    )
+    frames_dir = os.path.join(os.path.dirname(video_path), "frames")
+    os.makedirs(frames_dir, exist_ok=True)
+    frame_paths = extract_frames(
+        video_path, frames_dir,
+        num_frames=num_frames, max_width=config.FRAME_MAX_WIDTH,
+    )
+    return [frame_to_b64(p) for p in frame_paths]
+
+
 def _extract_frames_b64(video_url: str) -> list[str]:
     """Download the clip and return base64 JPEG frames, evenly sampled, in order."""
     with tempfile.TemporaryDirectory() as tmp_dir:
         video_path = os.path.join(tmp_dir, "clip.mp4")
         download_video(video_url, video_path)
-
-        duration = get_duration_seconds(video_path)
-        num_frames = choose_num_frames(
-            duration, config.SECONDS_PER_FRAME, config.MIN_FRAMES, config.MAX_FRAMES,
-        )
-
-        frames_dir = os.path.join(tmp_dir, "frames")
-        os.makedirs(frames_dir, exist_ok=True)
-        frame_paths = extract_frames(
-            video_path, frames_dir,
-            num_frames=num_frames, max_width=config.FRAME_MAX_WIDTH,
-        )
-        return [frame_to_b64(p) for p in frame_paths]
+        return _frames_b64_from_path(video_path)
 
 
 def describe_with_facts(frames_b64: list[str], client: CaptionClient) -> dict:
@@ -451,6 +446,31 @@ def describe_with_facts(frames_b64: list[str], client: CaptionClient) -> dict:
         "description": str(result.get("description", "")).strip(),
         "facts": [str(f).strip() for f in result.get("facts", []) if str(f).strip()],
     }
+
+
+def _grounding_for_clip(video_path: str, frames_b64: list[str], client: CaptionClient,
+                         gemini_client=None) -> dict:
+    """Describe+facts: Gemini full-video when configured, else Claude on sampled frames.
+
+    Gemini failures fall back to Claude frames so a flaky video API never blanks a task.
+    """
+    if (
+        gemini_client is not None
+        and config.DESCRIBE_BACKEND == "gemini"
+        and config.GEMINI_API_KEY
+    ):
+        try:
+            grounding = gemini_client.describe_video_with_facts(video_path)
+            if grounding.get("description"):
+                print("[pipeline] describe backend=gemini", file=sys.stderr)
+                return grounding
+            print("[pipeline] gemini returned empty description; falling back to Claude frames",
+                  file=sys.stderr)
+        except Exception:
+            print(f"[pipeline] gemini describe failed, falling back to Claude frames: "
+                  f"{traceback.format_exc()}", file=sys.stderr)
+    print("[pipeline] describe backend=claude-frames", file=sys.stderr)
+    return describe_with_facts(frames_b64, client)
 
 
 def _describe_video(video_url: str, client: CaptionClient) -> str:
@@ -482,72 +502,86 @@ def captions_from_description(description: str, styles: list[str],
     return result
 
 
-def caption_video(video_url: str, styles: list[str], client: CaptionClient) -> dict:
+def caption_video(video_url: str, styles: list[str], client: CaptionClient,
+                  gemini_client=None) -> dict:
     """Primary path: describe+facts -> per-style specialist candidates -> frame-grounded
-    selection -> critique/repair, with the single-call path as safety net at every stage."""
-    frames_b64 = _extract_frames_b64(video_url)
-    grounding = describe_with_facts(frames_b64, client)
-    description, facts = grounding["description"], grounding["facts"]
+    selection -> critique/repair, with the single-call path as safety net at every stage.
 
-    candidates: dict[str, dict] = {}
-    for s in styles:
-        if s not in STYLE_GUIDE:
-            continue  # unknown style: leave to the fallback single-call path
-        try:
-            candidates[s] = client.generate_json(
-                _specialist_prompt(s, description, facts), CANDIDATE_SCHEMA, max_tokens=800,
-            )
-        except Exception:
-            print(f"[pipeline] specialist call failed for style {s}: "
-                  f"{traceback.format_exc()}", file=sys.stderr)
+    When DESCRIBE_BACKEND=gemini and a gemini_client is provided, the describe step
+    watches the full video file; Claude still owns specialists/selection (and optional
+    critique). Selection always sees sampled frames so Gemini appearance slips can be
+    rejected at pick time.
+    """
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        video_path = os.path.join(tmp_dir, "clip.mp4")
+        download_video(video_url, video_path)
+        frames_b64 = _frames_b64_from_path(video_path)
+        grounding = _grounding_for_clip(video_path, frames_b64, client, gemini_client)
+        description, facts = grounding["description"], grounding["facts"]
 
-    result: dict[str, str] = {}
-    if candidates:
-        sel_schema = {
-            "type": "object",
-            "properties": {s: {"type": "string"} for s in candidates},
-            "required": list(candidates),
-            "additionalProperties": False,
-        }
-        # Two attempts: selection output echoes captions verbatim, so a truncated or
-        # malformed JSON response on attempt 1 (seen in testing) usually succeeds on
-        # retry. On double failure the candidate-"a" fallback below still fires.
-        for attempt in (1, 2):
+        candidates: dict[str, dict] = {}
+        for s in styles:
+            if s not in STYLE_GUIDE:
+                continue  # unknown style: leave to the fallback single-call path
             try:
-                chosen = client.generate_json(
-                    _selection_prompt(description, facts, candidates), sel_schema,
-                    frames_b64=frames_b64, max_tokens=2000,
+                candidates[s] = client.generate_json(
+                    _specialist_prompt(s, description, facts), CANDIDATE_SCHEMA, max_tokens=800,
                 )
-                for s in candidates:
-                    result[s] = str(chosen.get(s, "")).strip()
-                break
             except Exception:
-                print(f"[pipeline] selection attempt {attempt} failed: "
+                print(f"[pipeline] specialist call failed for style {s}: "
                       f"{traceback.format_exc()}", file=sys.stderr)
-        # Selection returned empty/invented text for a style -> fall back to candidate "a".
-        for s in candidates:
-            if not result.get(s, "").strip():
-                result[s] = str(candidates[s].get("a", "")).strip()
 
-    # Anything still missing/empty (unknown style, failed specialist call, etc.)
-    # goes through the proven single-call path.
-    missing = [s for s in styles if not result.get(s, "").strip()]
-    if missing:
-        fallback = captions_from_description(description, missing, client)
-        for s in missing:
-            result[s] = fallback.get(s, "")
+        result: dict[str, str] = {}
+        if candidates:
+            sel_schema = {
+                "type": "object",
+                "properties": {s: {"type": "string"} for s in candidates},
+                "required": list(candidates),
+                "additionalProperties": False,
+            }
+            # Two attempts: selection output echoes captions verbatim, so a truncated or
+            # malformed JSON response on attempt 1 (seen in testing) usually succeeds on
+            # retry. On double failure the candidate-"a" fallback below still fires.
+            for attempt in (1, 2):
+                try:
+                    chosen = client.generate_json(
+                        _selection_prompt(description, facts, candidates), sel_schema,
+                        frames_b64=frames_b64, max_tokens=2000,
+                    )
+                    for s in candidates:
+                        result[s] = str(chosen.get(s, "")).strip()
+                    break
+                except Exception:
+                    print(f"[pipeline] selection attempt {attempt} failed: "
+                          f"{traceback.format_exc()}", file=sys.stderr)
+            # Selection returned empty/invented text for a style -> fall back to candidate "a".
+            for s in candidates:
+                if not result.get(s, "").strip():
+                    result[s] = str(candidates[s].get("a", "")).strip()
 
-    result = {s: result.get(s, "") for s in styles}
+        # Anything still missing/empty (unknown style, failed specialist call, etc.)
+        # goes through the proven single-call path.
+        missing = [s for s in styles if not result.get(s, "").strip()]
+        if missing:
+            fallback = captions_from_description(description, missing, client)
+            for s in missing:
+                result[s] = fallback.get(s, "")
 
-    # Final safety net: critique the selected captions against the frames and repair
-    # anything that still scored low, once. A failure here degrades to the pre-critique
-    # captions rather than risking the whole task.
-    if config.ENABLE_CRITIQUE_REPAIR:
-        try:
-            critique = _apply_tech_guard(result, critique_captions(result, styles, frames_b64, client))
-            result = repair_weak_captions(result, critique, description, facts, frames_b64, client)
-        except Exception:
-            print(f"[pipeline] critique/repair failed, keeping pre-repair captions: "
-                  f"{traceback.format_exc()}", file=sys.stderr)
+        result = {s: result.get(s, "") for s in styles}
 
-    return result
+        # Final safety net: critique the selected captions against the frames and repair
+        # anything that still scored low, once. A failure here degrades to the pre-critique
+        # captions rather than risking the whole task.
+        if config.ENABLE_CRITIQUE_REPAIR:
+            try:
+                critique = _apply_tech_guard(
+                    result, critique_captions(result, styles, frames_b64, client),
+                )
+                result = repair_weak_captions(
+                    result, critique, description, facts, frames_b64, client,
+                )
+            except Exception:
+                print(f"[pipeline] critique/repair failed, keeping pre-repair captions: "
+                      f"{traceback.format_exc()}", file=sys.stderr)
+
+        return result

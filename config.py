@@ -62,6 +62,9 @@ ENABLE_CRITIQUE_REPAIR = os.environ.get("ENABLE_CRITIQUE_REPAIR", "true").strip(
 # scores at least as well), so repairing 4s can no longer make a caption worse.
 CRITIQUE_THRESHOLD = int(os.environ.get("CRITIQUE_THRESHOLD", "5"))
 
-# Gemini API key: used only by the standalone, capped video-native description probe
-# (not wired into main.py or the graded pipeline). Borrowed credit — keep usage minimal.
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+# Gemini: optional video-native describe front-end. Style writing stays on Claude.
+# DESCRIBE_BACKEND=gemini|claude (default claude = Arush-compatible frame describe).
+# Borrowed/employer credit — keep usage minimal; prefer flash-tier models.
+GEMINI_API_KEY = (os.environ.get("GEMINI_API_KEY", "") or "").strip().strip("'\"")
+GEMINI_MODEL_ID = os.environ.get("GEMINI_MODEL_ID", "gemini-3-flash-preview")
+DESCRIBE_BACKEND = os.environ.get("DESCRIBE_BACKEND", "claude").strip().lower()

@@ -1,0 +1,85 @@
+{
+  "summary": {
+    "num_scores": 12,
+    "avg_accuracy": 4.3333,
+    "avg_tone_fit": 4.8333,
+    "combined_01": 0.9167
+  },
+  "results": [
+    {
+      "task_id": "v1",
+      "scores": {
+        "formal": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "Accurately describes the multi-lane road, autumn yellow trees, time-lapse traffic buildup, high-rises, mountains, and hazy golden sky visible across frames; phrased as a single objective declarative sentence with no opinion or slang."
+        },
+        "sarcastic": {
+          "accuracy": 4,
+          "tone_fit": 4,
+          "notes": "Correctly references the visible 'Korea Illies Engineering' building sign and the growing traffic congestion in later frames, using dry irony; slightly wordy for 'one sentence' but tone is appropriately deadpan and mocking without being mean."
+        },
+        "humorous_tech": {
+          "accuracy": 4,
+          "tone_fit": 5,
+          "notes": "Golden-hour lighting and increasing traffic density/congestion in later frames match the 'deploy pipeline' and 'rate limit' jokes well; scene remains recognizable as a highway during autumn, tech metaphor is clever and fitting."
+        },
+        "humorous_non_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "Matches the visible sunset/golden light, mountain backdrop, and traffic congestion building into a jam; warm, relatable humor about commuting with no tech references, fitting the scene well."
+        }
+      }
+    },
+    {
+      "task_id": "v2",
+      "scores": {
+        "formal": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "Accurately describes the orange and white kitten walking on a dirt path toward the camera in a shaded, leafy area with dappled light; matches all visible details factually and neutrally."
+        },
+        "sarcastic": {
+          "accuracy": 4,
+          "tone_fit": 4,
+          "notes": "Captures the kitten's slow approach and perked ears with mock-heroic framing; the 'snack' quip is a reasonable dry aside though not directly visible, but tone and subject match well."
+        },
+        "humorous_tech": {
+          "accuracy": 4,
+          "tone_fit": 5,
+          "notes": "Cleverly maps the kitten's navigation through vines and trunks to pathfinding/A* and merge conflicts, which fits the tech-humor style well; tail swaying and ears up are visible details correctly used."
+        },
+        "humorous_non_tech": {
+          "accuracy": 4,
+          "tone_fit": 5,
+          "notes": "Warm, relatable humor about a 'commute' and 'nap' fits the walking kitten and perked ears seen in the frames; no tech references, fully non-tech and light-hearted."
+        }
+      }
+    },
+    {
+      "task_id": "v3",
+      "scores": {
+        "formal": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "Accurately describes the woman with curly bun, orange top, beige jacket, typing at desktop with white keyboard and black wired mouse in an open-plan office; matches all visible details and reads as a neutral declarative stock-footage caption."
+        },
+        "sarcastic": {
+          "accuracy": 4,
+          "tone_fit": 5,
+          "notes": "Camera does gradually zoom in closer across the frames, and the action is indeed just steady two-handed typing at a white desk, so the deadpan mock-drama framing fits well and is grounded in the visuals."
+        },
+        "humorous_tech": {
+          "accuracy": 4,
+          "tone_fit": 5,
+          "notes": "Captures the steady two-handed typing and the zoom-in progression accurately, and the coding/deploy joke is a plausible tech gag mapped onto an office typing scene, though there's no actual evidence she's coding."
+        },
+        "humorous_non_tech": {
+          "accuracy": 4,
+          "tone_fit": 5,
+          "notes": "The prominent curly bun and quiet typing in what appears to be an otherwise empty office (no other people visible) are accurately observed, and the joke stays free of tech references while being warm and relatable."
+        }
+      }
+    }
+  ]
+}

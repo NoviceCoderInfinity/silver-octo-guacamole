@@ -1,0 +1,85 @@
+{
+  "summary": {
+    "num_scores": 12,
+    "avg_accuracy": 4.4167,
+    "avg_tone_fit": 4.75,
+    "combined_01": 0.9167
+  },
+  "results": [
+    {
+      "task_id": "v1",
+      "scores": {
+        "formal": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "Accurately describes elevated time-lapse view of traffic at intersection with yellow autumn trees and apartment buildings in warm sunlight; matches all visible frame elements precisely and reads as a neutral stock-footage caption."
+        },
+        "sarcastic": {
+          "accuracy": 4,
+          "tone_fit": 4,
+          "notes": "Cars, buses visible starting/stopping at lights matches the scene; 'taxis' plausible given yellow cars seen; dry mock-praise tone about traffic lights fits well, though 'dance number' is a mild stretch beyond pure deadpan understatement."
+        },
+        "humorous_tech": {
+          "accuracy": 4,
+          "tone_fit": 5,
+          "notes": "Traffic queuing at red and flooding at green matches the visible stop-and-go blurred cars; tech metaphor (middleware, API rate limiting) is clever and clearly tied to the visible light-triggered traffic flow."
+        },
+        "humorous_non_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "Golden trees lining the road versus rushing cars is directly visible; 'sweats through every red light' humorously grounded in the stop-and-go traffic seen in frames, with no tech references."
+        }
+      }
+    },
+    {
+      "task_id": "v2",
+      "scores": {
+        "formal": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "Accurately describes the ginger kitten sitting then walking forward on dirt beneath green bushes with tail raised and eye contact, matching frames closely; sentence is factual and declarative with no embellishment."
+        },
+        "sarcastic": {
+          "accuracy": 5,
+          "tone_fit": 4,
+          "notes": "Correctly notes the slow walk toward the camera with tail raised, and the mocking 'invented forward motion' line is dry and understated, fitting the tone well without being absurd."
+        },
+        "humorous_tech": {
+          "accuracy": 4,
+          "tone_fit": 5,
+          "notes": "Tail raised and kitten pushing through branches toward camera matches the frames; 'status light' and 'merge conflicts' are clear tech jokes tied to visible action, though 'shoves through branches' slightly overstates the gentle walk."
+        },
+        "humorous_non_tech": {
+          "accuracy": 4,
+          "tone_fit": 5,
+          "notes": "Captures the kitten emerging from bushes with tail up and staring at camera; the 'fashionably late' and 'owe it breakfast' jokes are warm, relatable, and non-tech, fitting well though slightly embellished beyond literal action."
+        }
+      }
+    },
+    {
+      "task_id": "v3",
+      "scores": {
+        "formal": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "Accurately describes the woman with high bun typing on white keyboard in modern office, mentions camera zooming in, all clearly visible; stated as one objective declarative sentence."
+        },
+        "sarcastic": {
+          "accuracy": 4,
+          "tone_fit": 4,
+          "notes": "Captures the mundane office typing scene and zoom accurately with ironic 'riveting saga' framing; deadpan tone fits well though slightly more playful than pure dry understatement."
+        },
+        "humorous_tech": {
+          "accuracy": 4,
+          "tone_fit": 5,
+          "notes": "Ties typing/glancing down to a coding joke ('code compiled on first try', keyboard 'lying to her'), which fits the visible action of typing and looking at keyboard, though there's no actual evidence of coding on screen."
+        },
+        "humorous_non_tech": {
+          "accuracy": 4,
+          "tone_fit": 5,
+          "notes": "Uses relatable, tech-free humor about posture and the bun 'carrying its own workload,' matching the visible high bun and focused typing posture without any tech references."
+        }
+      }
+    }
+  ]
+}

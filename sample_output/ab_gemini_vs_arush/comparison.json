@@ -1,0 +1,16 @@
+{
+  "arush_baseline": {
+    "num_scores": 12,
+    "avg_accuracy": 4.3333,
+    "avg_tone_fit": 4.8333,
+    "combined_01": 0.9167
+  },
+  "gemini_hybrid": {
+    "num_scores": 12,
+    "avg_accuracy": 4.4167,
+    "avg_tone_fit": 4.75,
+    "combined_01": 0.9167
+  },
+  "delta_combined": 0.0,
+  "notes": "Local Claude-judge on 3 sample clips only \u2014 not the hidden leaderboard. Gemini arm isolates DESCRIBE_BACKEND=gemini with critique/repair OFF."
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "task_id": "v1",
+    "captions": {
+      "formal": "An elevated, time-lapse view captures continuous traffic navigating a busy city intersection lined with yellow autumn trees, set against a backdrop of tall apartment buildings under warm afternoon sunlight.",
+      "sarcastic": "Cars, buses, and taxis surge forward and slam to a halt on cue like a very expensive, very slow dance number choreographed entirely by traffic lights.",
+      "humorous_tech": "This intersection runs on the same architecture as traffic-light middleware: everyone queues at red, then floods the intersection at green like a thundering herd hitting an API with no rate limiting.",
+      "humorous_non_tech": "The yellow trees are just standing there looking golden and relaxed while the traffic below sweats through every red light like it's already late for dinner."
+    }
+  },
+  {
+    "task_id": "v2",
+    "captions": {
+      "formal": "A fluffy ginger kitten sits beneath shaded green bushes before slowly walking forward across dry dirt ground, maintaining eye contact with the camera as it approaches with its tail raised.",
+      "sarcastic": "It walks slowly toward the lens with its tail proudly raised, as if it just invented the concept of forward motion and wants full credit.",
+      "humorous_tech": "Tail up like a status light, this kitten shoves through the branches straight toward the camera, force-pushing itself into your personal space with zero merge conflicts.",
+      "humorous_non_tech": "That kitten struts out of the bushes tail held high like it's arriving fashionably late to a meeting it called itself, staring you down the whole way as if you owe it breakfast."
+    }
+  },
+  {
+    "task_id": "v3",
+    "captions": {
+      "formal": "A young Black woman with her hair in a high bun works at a computer in a modern office, typing on a white keyboard while occasionally glancing down as the camera slowly zooms in on her.",
+      "sarcastic": "She stares intently at her screen and types, a riveting saga of office productivity that the camera slowly zooms in on as if something is about to happen.",
+      "humorous_tech": "She's typing with the calm focus of someone whose code compiled on the first try, occasionally glancing down at the keyboard just to double-check it isn't lying to her.",
+      "humorous_non_tech": "She's got the posture of someone who just told the keyboard 'we're gonna be here a while,' bun pinned up like it's carrying its own workload today."
+    }
+  }
+]

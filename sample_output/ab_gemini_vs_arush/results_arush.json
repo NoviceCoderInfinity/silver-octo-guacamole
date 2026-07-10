@@ -1,0 +1,29 @@
+[
+  {
+    "task_id": "v1",
+    "captions": {
+      "formal": "Time-lapse footage shows a multi-lane urban highway lined with yellow autumn trees, where traffic in both directions builds into congestion with clustered brake lights as high-rise towers and mountains rise beneath a hazy, golden sky.",
+      "sarcastic": "The building proudly advertising its engineering credentials sits right beside a road that can't quite engineer its way out of a traffic jam, truly a masterclass in irony nobody asked for.",
+      "humorous_tech": "Golden-hour gridlock looks exactly like a deploy pipeline backing up\u2014everything's moving smoothly under the autumn trees until traffic density spikes and the whole highway starts throttling like it hit a rate limit.",
+      "humorous_non_tech": "Rush hour arrives right on schedule, turning a pretty sunset commute into a slow-motion parking lot with really nice mountain views, which is either the best or worst way to be stuck in traffic."
+    }
+  },
+  {
+    "task_id": "v2",
+    "captions": {
+      "formal": "A small orange and white kitten walks along a dirt path in a shaded, wooded area, approaching the camera at a low angle as dappled sunlight filters through the surrounding leaves and vines.",
+      "sarcastic": "Behold, a kitten bravely trekking down a dirt path toward the camera, ears perked as if it's about to deliver groundbreaking news instead of just wanting a snack.",
+      "humorous_tech": "Little orange-and-white cat pathfinding through vines and tree trunks like it's running A* with no obstacles flagged, tail swaying as the only sign of latency, ears up and scanning for merge conflicts in the brush.",
+      "humorous_non_tech": "This kitten is strutting down that dappled dirt path like it's already late for a very important nap, ears up and fully committed to the commute."
+    }
+  },
+  {
+    "task_id": "v3",
+    "captions": {
+      "formal": "A young woman with a curly bun, wearing an orange top under a beige jacket, types steadily at a desktop computer with a white keyboard and black wired mouse in a modern open-plan office.",
+      "sarcastic": "The camera slowly creeps in lower and closer, as if this steady two-handed typing session at a white desk is the thrilling climax of an otherwise deeply ordinary workday.",
+      "humorous_tech": "She's typing steady with both hands like she's committing code straight to main with no PR review, while the camera slowly zooms in for the dramatic 'will this deploy actually work' close-up.",
+      "humorous_non_tech": "That curly bun is doing more heavy lifting than most people's whole outfit, standing tall while she quietly out-types everyone else in the empty office around her."
+    }
+  }
+]

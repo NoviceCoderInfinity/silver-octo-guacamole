@@ -25,7 +25,7 @@ ARG GEMINI_MODEL_ID="gemini-3-flash-preview"
 ENV GEMINI_MODEL_ID=${GEMINI_MODEL_ID}
 
 # uniform = Arush-style; scene = winning novel arm (+0.019 on 12-clip Fireworks suite).
-ARG FRAME_SAMPLE_MODE="uniform"
+ARG FRAME_SAMPLE_MODE="scene"
 ENV FRAME_SAMPLE_MODE=${FRAME_SAMPLE_MODE}
 
 # Safety valve for the post-selection critique/repair pass (see config.py). Since the

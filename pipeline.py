@@ -25,6 +25,7 @@ from video_utils import (
     choose_num_frames,
     download_video,
     extract_frames,
+    extract_frames_scene_aware,
     frame_to_b64,
     get_duration_seconds,
 )
@@ -414,17 +415,23 @@ def repair_weak_captions(captions: dict, critique: dict, description: str, facts
 
 
 def _frames_b64_from_path(video_path: str) -> list[str]:
-    """Sample evenly spaced JPEG frames from an on-disk clip; return raw base64."""
+    """Sample JPEG frames from an on-disk clip; return raw base64."""
     duration = get_duration_seconds(video_path)
     num_frames = choose_num_frames(
         duration, config.SECONDS_PER_FRAME, config.MIN_FRAMES, config.MAX_FRAMES,
     )
     frames_dir = os.path.join(os.path.dirname(video_path), "frames")
     os.makedirs(frames_dir, exist_ok=True)
-    frame_paths = extract_frames(
-        video_path, frames_dir,
-        num_frames=num_frames, max_width=config.FRAME_MAX_WIDTH,
-    )
+    if config.FRAME_SAMPLE_MODE == "scene":
+        frame_paths = extract_frames_scene_aware(
+            video_path, frames_dir,
+            num_frames=num_frames, max_width=config.FRAME_MAX_WIDTH,
+        )
+    else:
+        frame_paths = extract_frames(
+            video_path, frames_dir,
+            num_frames=num_frames, max_width=config.FRAME_MAX_WIDTH,
+        )
     return [frame_to_b64(p) for p in frame_paths]
 
 

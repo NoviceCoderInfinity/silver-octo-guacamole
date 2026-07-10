@@ -24,6 +24,10 @@ ENV DESCRIBE_BACKEND=${DESCRIBE_BACKEND}
 ARG GEMINI_MODEL_ID="gemini-3-flash-preview"
 ENV GEMINI_MODEL_ID=${GEMINI_MODEL_ID}
 
+# uniform = Arush-style; scene = winning novel arm (+0.019 on 12-clip Fireworks suite).
+ARG FRAME_SAMPLE_MODE="uniform"
+ENV FRAME_SAMPLE_MODE=${FRAME_SAMPLE_MODE}
+
 # Safety valve for the post-selection critique/repair pass (see config.py). Since the
 # harness injects no env vars at `docker run` time, this is the only way to disable it for
 # a graded run if needed: `--build-arg ENABLE_CRITIQUE_REPAIR=false` at build time.

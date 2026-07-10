@@ -68,3 +68,6 @@ CRITIQUE_THRESHOLD = int(os.environ.get("CRITIQUE_THRESHOLD", "5"))
 GEMINI_API_KEY = (os.environ.get("GEMINI_API_KEY", "") or "").strip().strip("'\"")
 GEMINI_MODEL_ID = os.environ.get("GEMINI_MODEL_ID", "gemini-3-flash-preview")
 DESCRIBE_BACKEND = os.environ.get("DESCRIBE_BACKEND", "claude").strip().lower()
+# Frame sampling mode for the graded pipeline: "uniform" (Arush) or "scene"
+# (scene-change + uniform mix; best novel arm on the 12-clip Fireworks suite).
+FRAME_SAMPLE_MODE = os.environ.get("FRAME_SAMPLE_MODE", "uniform").strip().lower()

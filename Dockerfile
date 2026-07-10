@@ -24,14 +24,15 @@ ENV DESCRIBE_BACKEND=${DESCRIBE_BACKEND}
 ARG GEMINI_MODEL_ID="gemini-3-flash-preview"
 ENV GEMINI_MODEL_ID=${GEMINI_MODEL_ID}
 
-# uniform = Arush-style; scene = winning novel arm (+0.019 on 12-clip Fireworks suite).
-ARG FRAME_SAMPLE_MODE="scene"
+# Match formal_grounded experiment: uniform frames (scene_frames did not move leaderboard).
+ARG FRAME_SAMPLE_MODE="uniform"
 ENV FRAME_SAMPLE_MODE=${FRAME_SAMPLE_MODE}
 
-# Safety valve for the post-selection critique/repair pass (see config.py). Since the
-# harness injects no env vars at `docker run` time, this is the only way to disable it for
-# a graded run if needed: `--build-arg ENABLE_CRITIQUE_REPAIR=false` at build time.
-# Default false for the Gemini hybrid A/B so we isolate the describe-backend change.
+# formal_grounded = formal first, then lock other styles to its entities (best v2 arm).
+ARG CAPTION_MODE="formal_grounded"
+ENV CAPTION_MODE=${CAPTION_MODE}
+
+# Safety valve for the post-selection critique/repair pass (see config.py).
 ARG ENABLE_CRITIQUE_REPAIR="false"
 ENV ENABLE_CRITIQUE_REPAIR=${ENABLE_CRITIQUE_REPAIR}
 

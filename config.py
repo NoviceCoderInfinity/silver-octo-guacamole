@@ -71,3 +71,6 @@ DESCRIBE_BACKEND = os.environ.get("DESCRIBE_BACKEND", "claude").strip().lower()
 # Frame sampling mode for the graded pipeline: "uniform" (Arush) or "scene"
 # (scene-change + uniform mix; best novel arm on the 12-clip Fireworks suite).
 FRAME_SAMPLE_MODE = os.environ.get("FRAME_SAMPLE_MODE", "uniform").strip().lower()
+# Caption strategy: "default" (all styles in parallel) or "formal_grounded"
+# (formal first, then other styles locked to formal's entities — best v2 arm).
+CAPTION_MODE = os.environ.get("CAPTION_MODE", "formal_grounded").strip().lower()

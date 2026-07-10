@@ -509,15 +509,60 @@ def captions_from_description(description: str, styles: list[str],
     return result
 
 
+def _specialists_and_select(description: str, facts: list[str], styles: list[str],
+                            frames_b64: list[str], client: CaptionClient) -> dict[str, str]:
+    """Per-style best-of-2 specialists + frame-grounded selection (with fallbacks)."""
+    candidates: dict[str, dict] = {}
+    for s in styles:
+        if s not in STYLE_GUIDE:
+            continue
+        try:
+            candidates[s] = client.generate_json(
+                _specialist_prompt(s, description, facts), CANDIDATE_SCHEMA, max_tokens=800,
+            )
+        except Exception:
+            print(f"[pipeline] specialist call failed for style {s}: "
+                  f"{traceback.format_exc()}", file=sys.stderr)
+
+    result: dict[str, str] = {}
+    if candidates:
+        sel_schema = {
+            "type": "object",
+            "properties": {s: {"type": "string"} for s in candidates},
+            "required": list(candidates),
+            "additionalProperties": False,
+        }
+        for attempt in (1, 2):
+            try:
+                chosen = client.generate_json(
+                    _selection_prompt(description, facts, candidates), sel_schema,
+                    frames_b64=frames_b64, max_tokens=2000,
+                )
+                for s in candidates:
+                    result[s] = str(chosen.get(s, "")).strip()
+                break
+            except Exception:
+                print(f"[pipeline] selection attempt {attempt} failed: "
+                      f"{traceback.format_exc()}", file=sys.stderr)
+        for s in candidates:
+            if not result.get(s, "").strip():
+                result[s] = str(candidates[s].get("a", "")).strip()
+
+    missing = [s for s in styles if not result.get(s, "").strip()]
+    if missing:
+        fallback = captions_from_description(description, missing, client)
+        for s in missing:
+            result[s] = fallback.get(s, "")
+    return {s: result.get(s, "") for s in styles}
+
+
 def caption_video(video_url: str, styles: list[str], client: CaptionClient,
                   gemini_client=None) -> dict:
     """Primary path: describe+facts -> per-style specialist candidates -> frame-grounded
     selection -> critique/repair, with the single-call path as safety net at every stage.
 
-    When DESCRIBE_BACKEND=gemini and a gemini_client is provided, the describe step
-    watches the full video file; Claude still owns specialists/selection (and optional
-    critique). Selection always sees sampled frames so Gemini appearance slips can be
-    rejected at pick time.
+    CAPTION_MODE=formal_grounded: write formal first, then lock other styles to that
+    caption's entities (best v2 arm vs Arush on the Fireworks 12-clip suite).
     """
     with tempfile.TemporaryDirectory() as tmp_dir:
         video_path = os.path.join(tmp_dir, "clip.mp4")
@@ -526,59 +571,33 @@ def caption_video(video_url: str, styles: list[str], client: CaptionClient,
         grounding = _grounding_for_clip(video_path, frames_b64, client, gemini_client)
         description, facts = grounding["description"], grounding["facts"]
 
-        candidates: dict[str, dict] = {}
-        for s in styles:
-            if s not in STYLE_GUIDE:
-                continue  # unknown style: leave to the fallback single-call path
-            try:
-                candidates[s] = client.generate_json(
-                    _specialist_prompt(s, description, facts), CANDIDATE_SCHEMA, max_tokens=800,
+        if config.CAPTION_MODE == "formal_grounded" and "formal" in styles:
+            print("[pipeline] caption_mode=formal_grounded", file=sys.stderr)
+            formal_part = _specialists_and_select(
+                description, facts, ["formal"], frames_b64, client,
+            )
+            formal_text = formal_part.get("formal", "").strip() or description
+            other = [s for s in styles if s != "formal"]
+            result = dict(formal_part)
+            if other:
+                grounded = (
+                    f"{description}\n\n"
+                    "LOCKED GROUNDING CAPTION (formal, already verified tone):\n"
+                    f"\"{formal_text}\"\n"
+                    "Every other caption MUST reuse only subjects/actions/objects named "
+                    "in that formal caption (or clearly visible alongside them). Do not "
+                    "introduce new background colours, counts, or side details absent "
+                    "from the formal caption."
                 )
-            except Exception:
-                print(f"[pipeline] specialist call failed for style {s}: "
-                      f"{traceback.format_exc()}", file=sys.stderr)
+                result.update(_specialists_and_select(
+                    grounded, facts, other, frames_b64, client,
+                ))
+            result = {s: result.get(s, "") for s in styles}
+        else:
+            result = _specialists_and_select(
+                description, facts, styles, frames_b64, client,
+            )
 
-        result: dict[str, str] = {}
-        if candidates:
-            sel_schema = {
-                "type": "object",
-                "properties": {s: {"type": "string"} for s in candidates},
-                "required": list(candidates),
-                "additionalProperties": False,
-            }
-            # Two attempts: selection output echoes captions verbatim, so a truncated or
-            # malformed JSON response on attempt 1 (seen in testing) usually succeeds on
-            # retry. On double failure the candidate-"a" fallback below still fires.
-            for attempt in (1, 2):
-                try:
-                    chosen = client.generate_json(
-                        _selection_prompt(description, facts, candidates), sel_schema,
-                        frames_b64=frames_b64, max_tokens=2000,
-                    )
-                    for s in candidates:
-                        result[s] = str(chosen.get(s, "")).strip()
-                    break
-                except Exception:
-                    print(f"[pipeline] selection attempt {attempt} failed: "
-                          f"{traceback.format_exc()}", file=sys.stderr)
-            # Selection returned empty/invented text for a style -> fall back to candidate "a".
-            for s in candidates:
-                if not result.get(s, "").strip():
-                    result[s] = str(candidates[s].get("a", "")).strip()
-
-        # Anything still missing/empty (unknown style, failed specialist call, etc.)
-        # goes through the proven single-call path.
-        missing = [s for s in styles if not result.get(s, "").strip()]
-        if missing:
-            fallback = captions_from_description(description, missing, client)
-            for s in missing:
-                result[s] = fallback.get(s, "")
-
-        result = {s: result.get(s, "") for s in styles}
-
-        # Final safety net: critique the selected captions against the frames and repair
-        # anything that still scored low, once. A failure here degrades to the pre-critique
-        # captions rather than risking the whole task.
         if config.ENABLE_CRITIQUE_REPAIR:
             try:
                 critique = _apply_tech_guard(

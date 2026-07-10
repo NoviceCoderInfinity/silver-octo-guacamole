@@ -1,0 +1,110 @@
+[
+  {
+    "task_id": "g1",
+    "captions": {
+      "formal": "Filmed against a bright, hazy low sun, the footage shows a dog entering from the lower left and steadily receding into the distance until it appears as a small silhouette near the trees.",
+      "sarcastic": "Truly a cinematographer's masterstroke, aiming directly into the blinding sun so the dog can heroically shrink into an unrecognizable smudge by the tree line.",
+      "humorous_tech": "The dog sprints straight toward the tree line, shrinking frame by frame like a game engine dynamically dialing down the LOD before it finally renders as a single low-poly silhouette.",
+      "humorous_non_tech": "The grass is still wet, the sun is doing its whole dramatic glowing thing, and one dog has already committed harder to a morning run than I ever have to anything in my entire life."
+    }
+  },
+  {
+    "task_id": "g2",
+    "captions": {
+      "formal": "Aerial drone footage captures a city skyline at dusk, panning right from older residential high-rises and a tapered art-deco spire toward modern glass skyscrapers, one topped with a faceted crown, as a river lined with docked boats and piers flows below alongside streets filled with moving traffic.",
+      "sarcastic": "The camera pans ever so slowly from stately old high-rises to shiny new ones, a riveting metaphor for gentrification narrated entirely by a river full of parked boats.",
+      "humorous_tech": "The drone does a slow right-pan render, loading the old art-deco spire first as a placeholder before the modern glass towers finish streaming in at full resolution, crane included as the last asset to pop in.",
+      "humorous_non_tech": "The old art-deco spire watches the new glass towers rise across the river like a grandparent who still thinks the fancy new restaurant downtown is 'just a phase.'"
+    }
+  },
+  {
+    "task_id": "g3",
+    "captions": {
+      "formal": "A low, long vessel moves slowly across a harbor at sunset as pink, magenta, and orange clouds streak across the sky above dark, rippling water.",
+      "sarcastic": "A barge glides across the water at the pace of a truly urgent errand, while the sky puts in all the visual effort so nobody has to look at the industrial shoreline too closely.",
+      "humorous_tech": "The sky's rendering a gradient from magenta to deep blue-gray at buttery-smooth framerate while that barge crawls across the horizon like a progress bar stuck at 99%, still loading its ETA.",
+      "humorous_non_tech": "The sky's gone full drama queen with pink and orange streaks like it's auditioning for a magazine cover, meanwhile that barge is just puttering along the horizon, completely unimpressed, running late for dinner like the rest of us."
+    }
+  },
+  {
+    "task_id": "g4",
+    "captions": {
+      "formal": "A fixed high-angle camera captures a signal-controlled pedestrian crossing surrounded by tall buildings and large digital advertising screens, with crowd density on the crosswalks fluctuating between nearly empty and tightly packed as traffic and foot flow alternate.",
+      "sarcastic": "Ah, the sacred choreography of urban life: cars flood the intersection, then stop so a wall of pedestrians can flood it right back, an ingenious system for making sure no one ever crosses that intersection efficiently.",
+      "humorous_tech": "Classic stop-and-go rate limiter: the crossing sits nearly empty for a beat, then the signal lifts throttling and pedestrian density spikes to max load across every lane while a red taxi and orange bus just try to render through the crowd.",
+      "humorous_non_tech": "Every light change and that whole crowd surges across like they've all simultaneously remembered they left the stove on, while the orange bus just sits there judging everyone's life choices."
+    }
+  },
+  {
+    "task_id": "g5",
+    "captions": {
+      "formal": "Aerial drone footage shows a jagged, pale rocky ridge with patches of vegetation in the foreground, as the camera pans right and tilts upward to reveal layered mountain ranges fading into a hazy blue-gray distance under a pale, overcast sky.",
+      "sarcastic": "A drone slowly pans across ancient weathered peaks and a hazy sprawling city in the distance, because apparently nothing says 'untouched nature' quite like a metropolis lurking on the horizon.",
+      "humorous_tech": "This granite ridge has been running the same weathered rock formation in production for a few million years without a single patch, and the forest canopy just keeps auto-deploying more green on top. Zoom out far enough and you can spot the city in the distance, quietly 404-ing under the overcast sky.",
+      "humorous_non_tech": "That jagged gray peak just sits there looking unbothered while the whole forest underneath is clearly stressed about slope stability, and honestly same, mountain, same."
+    }
+  },
+  {
+    "task_id": "g6",
+    "captions": {
+      "formal": "Close-up footage captures a hand wearing a silver ring typing on a laptop keyboard, shot from a low side angle that keeps the keys in sharp focus while a warmly lit indoor setting blurs in the background.",
+      "sarcastic": "A silver-ringed hand hovers dramatically over the keyboard before daring to press a key, groundbreaking cinematography for what is, in fact, just someone typing.",
+      "humorous_tech": "That silver-ringed hand hovering over the keys before it strikes is basically the \\u2018git commit\\u2019 confirmation dialog: one dramatic pause, then irreversible changes get pushed straight to prod.",
+      "humorous_non_tech": "Fingers hovering, then pouncing on those keys like someone deciding whether to eat the last cookie, all while the soft lamp glow in the background pretends this is a peaceful moment and not a mild crisis of productivity."
+    }
+  },
+  {
+    "task_id": "g7",
+    "captions": {
+      "formal": "Nighttime footage recorded from inside a vehicle shows a rain-slicked street lined with streetlights as a traffic signal ahead changes from red to green, with the vehicle then proceeding forward past illuminated storefronts.",
+      "sarcastic": "Ah, the thrilling moment a traffic light changes from red to green, captured in glorious blurry rain-streaked vision through what appears to be a peephole into another dimension.",
+      "humorous_tech": "Shooting the night drive through a rain-speckled window is basically streaming 4K over spotty Wi-Fi: laggy, blurry, and buffering every streetlight until the signal changes.",
+      "humorous_non_tech": "Rain on the window, blurry shop signs sliding by, and me just squinting through the glass like I'll magically read them if I try hard enough - meanwhile the streetlights keep multiplying themselves all over the puddles like they're showing off."
+    }
+  },
+  {
+    "task_id": "g8",
+    "captions": {
+      "formal": "Three young adults sit around a table with four glasses of beer on a rooftop terrace framed by high-rise buildings and overhead string lights, with the conversation shifting from focused discussion to shared laughter.",
+      "sarcastic": "One man gestures toward his own head like he's about to solve something profound, and somehow the punchline is just everyone laughing over beer.",
+      "humorous_tech": "Starts like a tense code review \u2014 denim-top woman stone-faced, polo-shirt guy nodding along to the stack trace \u2014 then someone finds the missing semicolon and the whole rooftop table dissolves into a beer-fueled deploy-success laugh.",
+      "humorous_non_tech": "One extra beer sits there like an empty chair at Thanksgiving while gray-shirt guy talks with his hands enough to land a plane, and somehow by the end everyone's laughing like the rooftop itself told a joke."
+    }
+  },
+  {
+    "task_id": "g9",
+    "captions": {
+      "formal": "Static footage captures the repetitive surf advancing and receding over rounded pebbles, with a hazy, mist-shrouded green cliff curving along the shoreline in the background.",
+      "sarcastic": "Riveting stuff, waves rolling in and breaking into foam on the pebbles, then doing it again, apparently forever, in case anyone doubted the ocean's commitment to repetition.",
+      "humorous_tech": "This surf is basically a flaky CI pipeline: waves keep retrying against the dark pebbles, foaming out, and rolling back, never quite landing a clean deploy. The misty cliff in the background is just watching the build log scroll by.",
+      "humorous_non_tech": "The waves keep charging up the pebble beach with real enthusiasm, then immediately think better of it and slide right back, which is basically how I approach every Monday morning task."
+    }
+  },
+  {
+    "task_id": "g10",
+    "captions": {
+      "formal": "At an indoor transit station lit by fluorescent lighting, a second train bearing the number 5257 pulls into the platform from the opposite side after the first train's departure, and passengers are seen boarding it while advertisement screens hang from the ceiling above.",
+      "sarcastic": "Truly a marvel of modern efficiency: an entire platform of people standing around so that a train can arrive, empty itself, leave, and be replaced by an almost identical train, all under the watchful glow of ceiling ads nobody is reading.",
+      "humorous_tech": "Train 5257 rolls in and everyone rushes to board like it's the last stable release before the merge freeze, while the guy with the backpack just stands there watching the load balancer do its job.",
+      "humorous_non_tech": "Train 5257 rolls in and suddenly the whole platform remembers it has somewhere to be, while the man with the backpack just watches like he's already decided this one isn't his either."
+    }
+  },
+  {
+    "task_id": "g11",
+    "captions": {
+      "formal": "In an indoor kitchen setting, a pair of hands uses the flat side of a knife blade to scrape diced zucchini across a wooden cutting board toward a black pan, with a glass container and lettuce leaves visible nearby.",
+      "sarcastic": "Nothing says culinary artistry quite like scraping diced zucchini across a cutting board with the flat of a knife, right before the camera itself gets ambushed by a mysterious green blur, the true climax of this thrilling chop.",
+      "humorous_tech": "Zucchini getting sharded into uniform green-and-white blocks, then the flat of the blade batch-transfers the whole array toward the pan like a garbage collector sweeping memory. Right on cue, a blurry green object photobombs the lens, the classic camera-obstruction exception nobody bothers to catch.",
+      "humorous_non_tech": "That zucchini never had a chance against this striped-apron energy, and just when the pile of cubes looks proud of itself, some mystery green blob photobombs the whole operation, which is honestly how most of my kitchen adventures end too."
+    }
+  },
+  {
+    "task_id": "g12",
+    "captions": {
+      "formal": "A static camera captures an empty maroon athletic track with white lane numbers one through six as a man in a light tank top and blue shorts briefly runs across it from left to right under bright daylight.",
+      "sarcastic": "Six perfectly painted lanes, a full set of green-framed bleachers, and all that infrastructure gets used by exactly one guy briskly passing through on his way to somewhere presumably more important.",
+      "humorous_tech": "Six empty lanes just sitting there like idle CPU cores, until one process finally gets scheduled: a guy in a tank top sprints left to right, motion-blurred like he's rendering at low frame rate, then exits and the track goes back to idle.",
+      "humorous_non_tech": "Six empty lanes, a whole stadium of vacant chairs, and yet one guy sprints through like he's late for a meeting nobody scheduled, gone before the shadow even catches up."
+    }
+  }
+]

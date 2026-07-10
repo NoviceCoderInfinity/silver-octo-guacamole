@@ -1,0 +1,110 @@
+[
+  {
+    "task_id": "g1",
+    "captions": {
+      "formal": "A tan dog runs across an open grassy field at ground level, moving away from the camera as low sunlight creates a strong lens flare near the treeline.",
+      "sarcastic": "A dog sprints toward the camera and then away from it, bravely proving that running in a straight line across a field is, in fact, still running in a straight line across a field.",
+      "humorous_tech": "Buffering... buffering... and there's the dog, rendering at full frame rate straight through the lens flare like it's got priority bandwidth. Meanwhile the sunbeam just sits there lagging behind, still loading its god rays.",
+      "humorous_non_tech": "That dog is sprinting through the field like it just remembered it left something on the stove, straight into the sunbeam and everything."
+    }
+  },
+  {
+    "task_id": "g2",
+    "captions": {
+      "formal": "An aerial view captures a waterfront district with piers and docked boats in the foreground as the camera moves laterally to reveal clusters of glass skyscrapers, including one under construction with a visible crane.",
+      "sarcastic": "A drone glides past yet another skyline dominated by a spire-topped tower, because apparently no aerial shot is complete without one building desperately trying to be taller than the rest.",
+      "humorous_tech": "That construction crane by the glass towers is basically a deploy stuck at 99%, while the ferries idle at the piers like background processes waiting for a callback that's never coming.",
+      "humorous_non_tech": "That one spire keeps hogging the skyline in every shot, like the coworker who always finds a way into the group photo whether you invited him or not."
+    }
+  },
+  {
+    "task_id": "g3",
+    "captions": {
+      "formal": "Streaked pink and orange clouds stretch across the sky as the sun's glow sits low over a distant shoreline, its light reflecting in rippled patterns across the dark water of a bay.",
+      "sarcastic": "Truly a nail-biter of a scene: the sun just hangs there over the water, showing off its one trick of turning the clouds pink and orange while everyone forgets to applaud.",
+      "humorous_tech": "This static camera has been staring at the same sunset over the water for so long it's basically a loading screen, just with better color grading than your last deploy. Even the low barge on the horizon hasn't moved, like it's still waiting on a CI pipeline to finish.",
+      "humorous_non_tech": "The sun is just sitting there on the horizon like it clocked out early and left the sky to deal with the mess of pink and orange on its own."
+    }
+  },
+  {
+    "task_id": "g4",
+    "captions": {
+      "formal": "An elevated view captures a busy pedestrian scramble crossing where crowds move diagonally across multiple crosswalks as buses, taxis, and cars navigate the surrounding roadway under overcast skies.",
+      "sarcastic": "A whole crowd of pedestrians bravely walking diagonally across white stripes on the ground, humanity's crowning achievement in getting from one side to the other.",
+      "humorous_tech": "This scramble crossing is basically a load-balancer under variable traffic: pedestrian requests spike diagonally across every crosswalk, then drain to open pavement until the next batch gets pushed.",
+      "humorous_non_tech": "The sky's doing that flat grey thing that can't commit to rain or sunshine, so the crowd just keeps shuffling across the stripes below like they've collectively decided to ignore the forecast and power through to lunch."
+    }
+  },
+  {
+    "task_id": "g5",
+    "captions": {
+      "formal": "A slow aerial pan reveals a rocky ridgeline of weathered light-colored stone outcroppings in the foreground, with dense green forest covering the slopes below a hazy pale blue sky.",
+      "sarcastic": "A drone slowly drifts over the same jagged granite ridge for what feels like an eternity, truly the pinnacle of aerial cinematography: point at mountain, wait.",
+      "humorous_tech": "The drone's basically stuck panning the same jagged granite ridge over and over, like a loading bar that hit 99% and gave up rendering anything new.",
+      "humorous_non_tech": "Those old pale rocks up front look like they've been sunbathing since breakfast, too stubborn to move even with a whole city hazily elbowing for attention way off in the distance."
+    }
+  },
+  {
+    "task_id": "g6",
+    "captions": {
+      "formal": "Close-up, low-angle footage shows a hand wearing a silver ring typing on a laptop keyboard, with a computer mouse visible in soft focus nearby on a light-colored desk.",
+      "sarcastic": "Someone's really committing to the ancient art of moving fingers slightly to the left and right on a keyboard, groundbreaking stuff.",
+      "humorous_tech": "Fingers flying across the keys while the mouse just sits there in soft focus, unemployed, because apparently everything important today is happening entirely on the keyboard shortcuts.",
+      "humorous_non_tech": "That silver ring is really carrying the whole 'serious professional' vibe while the fingers underneath are just poking around like they're picking a lock on a diary."
+    }
+  },
+  {
+    "task_id": "g7",
+    "captions": {
+      "formal": "Footage captured from inside a moving vehicle at night shows a wet city street lined with illuminated streetlights, as traffic signals ahead transition from red to green.",
+      "sarcastic": "Nothing captures the thrill of urban nightlife quite like watching a red light patiently wait to become a green light, filmed through a window so streaked with rain it might as well be abstract art.",
+      "humorous_tech": "The traffic light finally flips from red to green, basically the universe's slowest CI pipeline approving your merge while you sit there watching rain-soaked pixels reflect off the pavement.",
+      "humorous_non_tech": "Following someone else's taillights down a rainy street at night is basically modern trust exercise, you just hope they know where the good parking is because you clearly don't."
+    }
+  },
+  {
+    "task_id": "g8",
+    "captions": {
+      "formal": "Seated at a rooftop table strung with overhead lights, a man in a gray t-shirt gestures while speaking as the woman beside him laughs and the man on the right listens with his hand near his chin.",
+      "sarcastic": "A man raising his fist mid-story while his friends sip beer under string lights, truly the rooftop TED Talk none of us asked for.",
+      "humorous_tech": "Rooftop stand-up meeting, no Jira required: the guy in the gray tee raises a fist like he's force-pushing his point straight to production while the group just laughs off the merge conflict.",
+      "humorous_non_tech": "The guy in the gray shirt just raised a fist like he's about to reenact the greatest moment of his life, and it's probably just about finding a parking spot."
+    }
+  },
+  {
+    "task_id": "g9",
+    "captions": {
+      "formal": "Waves break and foam along a pebble beach as a tall, vegetation-covered cliff rises in the background under soft, overcast light.",
+      "sarcastic": "Ah, a pebble beach where the waves break, foam, and retreat in exactly the same spot over and over, truly the ocean's most committed impression of a loop.",
+      "humorous_tech": "This shoreline is stuck in an infinite loop: waves crash on the pebbles, foam up, retreat, and re-deploy the exact same white surf pattern with zero new commits to the shoreline.",
+      "humorous_non_tech": "The waves keep rolling in and giving up at the same spot on the pebbles, which is honestly the most relatable work ethic I've seen all week."
+    }
+  },
+  {
+    "task_id": "g10",
+    "captions": {
+      "formal": "A commuter train stops at a busy covered platform as travelers carrying bags move along the walkway and others wait on metal benches, before a second train arrives on an adjacent track and the man with the backpack approaches it.",
+      "sarcastic": "One train leaves, another arrives, commuters shuffle past with bags, and the whole marvel of modern transit is captured perfectly in a puddle of reflective floor tile.",
+      "humorous_tech": "Old train departs, new train pulls in on the next track \\u2014 that's not a schedule, that's a hot swap with zero downtime. Meanwhile the man in the maroon shirt finally executes his queued function and walks toward the departing train, backpack still strapped in like cached state.",
+      "humorous_non_tech": "One train leaves, another pulls in, and somehow everyone with a bag decides that's the exact moment to walk in six different directions at once, benches full of people wisely choosing to just watch the chaos unfold."
+    }
+  },
+  {
+    "task_id": "g11",
+    "captions": {
+      "formal": "A person wearing a striped apron chops zucchini into cubes on a wooden cutting board, with a pan of other chopped vegetables visible in the foreground.",
+      "sarcastic": "Truly a masterclass in patience, one person methodically cubing zucchini into tiny identical pieces while someone else's hand hovers nearby, presumably to make sure the cutting board doesn't get any ideas.",
+      "humorous_tech": "Dicing zucchini into uniform little cubes is basically manual sharding: same input, consistent chunk size, no rebalancing errors on this cutting board.",
+      "humorous_non_tech": "That zucchini never stood a chance against a knife and someone determined to turn dinner prep into a full-body workout, dicing away like the pile on that cutting board owes rent."
+    }
+  },
+  {
+    "task_id": "g12",
+    "captions": {
+      "formal": "A man in a gray tank top and blue shorts runs across an empty running track lined with numbered lanes, as a static camera captures him crossing from one side of the frame to the other.",
+      "sarcastic": "A man in a gray tank top jogs past eight perfectly numbered lanes, bravely choosing to ignore all seven of the alternatives.",
+      "humorous_tech": "He crosses the frame mid-stride in a gray tank top like a single process racing through empty lane markers, the whole stadium idle because nobody else bothered to deploy to this environment.",
+      "humorous_non_tech": "One guy, one whole stadium of empty seats, and he's still out here giving it full effort like the bleachers are packed and judging his splits."
+    }
+  }
+]

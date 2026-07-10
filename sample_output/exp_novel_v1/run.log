@@ -1,0 +1,1108 @@
+[judge] provider=fireworks model=accounts/fireworks/models/qwen3p7-plus (Claude forbidden for this suite)
+
+=== GENERATE arush_baseline: Arush 0.87 lean baseline ===
+[arush_baseline] g1 done
+[arush_baseline] g2 done
+[arush_baseline] g4 done
+[arush_baseline] g3 done
+[arush_baseline] g6 done
+[arush_baseline] g5 done
+[arush_baseline] g7 done
+[arush_baseline] g8 done
+[arush_baseline] g9 done
+[arush_baseline] g10 done
+[arush_baseline] g11 done
+[arush_baseline] g12 done
+[arush_baseline] wall=252.5s
+
+=== JUDGE arush_baseline ===
+{
+  "title": "Arush 0.87 lean baseline",
+  "novel": false,
+  "num_scores": 48,
+  "avg_accuracy": 4.75,
+  "avg_tone_fit": 4.9167,
+  "combined_01": 0.9667,
+  "per_style": {
+    "formal": {
+      "avg_accuracy": 5.0,
+      "avg_tone_fit": 5.0
+    },
+    "sarcastic": {
+      "avg_accuracy": 4.75,
+      "avg_tone_fit": 4.75
+    },
+    "humorous_tech": {
+      "avg_accuracy": 4.75,
+      "avg_tone_fit": 4.9167
+    },
+    "humorous_non_tech": {
+      "avg_accuracy": 4.5,
+      "avg_tone_fit": 5.0
+    }
+  },
+  "delta_vs_arush": 0.0
+}
+
+=== GENERATE verifiability: Verifiability-locked specialists/selection ===
+[verifiability] g2 done
+[verifiability] g1 done
+[verifiability] g3 done
+[verifiability] g4 done
+[verifiability] g5 done
+[verifiability] g6 done
+[verifiability] g7 done
+[verifiability] g8 done
+[verifiability] g9 done
+[verifiability] g10 done
+[verifiability] g11 done
+[verifiability] g12 done
+[verifiability] wall=249.1s
+
+=== JUDGE verifiability ===
+{
+  "title": "Verifiability-locked specialists/selection",
+  "novel": true,
+  "num_scores": 48,
+  "avg_accuracy": 4.6875,
+  "avg_tone_fit": 4.8958,
+  "combined_01": 0.9583,
+  "per_style": {
+    "formal": {
+      "avg_accuracy": 4.8333,
+      "avg_tone_fit": 5.0
+    },
+    "sarcastic": {
+      "avg_accuracy": 4.5833,
+      "avg_tone_fit": 4.75
+    },
+    "humorous_tech": {
+      "avg_accuracy": 4.75,
+      "avg_tone_fit": 5.0
+    },
+    "humorous_non_tech": {
+      "avg_accuracy": 4.5833,
+      "avg_tone_fit": 4.8333
+    }
+  },
+  "delta_vs_arush": -0.0084
+}
+
+=== GENERATE gemini_temporal: Gemini temporal notes + Claude describe ===
+[gemini_temporal] g2 done
+[gemini_temporal] g1 done
+[gemini_temporal] g4 done
+[gemini_temporal] g3 done
+[gemini_temporal] g6 done
+[gemini_temporal] g5 done
+[gemini_temporal] g7 done
+[gemini_temporal] g8 done
+[gemini_temporal] g9 done
+[exp] selection attempt 1 failed: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/core.py", line 237, in run_specialists_and_select
+    chosen = client.generate_json(
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/llm_client.py", line 111, in generate_json
+    return json.loads(_text_of(response))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+[gemini_temporal] g11 done
+[gemini_temporal] g10 done
+[gemini_temporal] g12 done
+[gemini_temporal] wall=345.0s
+
+=== JUDGE gemini_temporal ===
+{
+  "title": "Gemini temporal notes + Claude describe",
+  "novel": true,
+  "num_scores": 48,
+  "avg_accuracy": 4.7083,
+  "avg_tone_fit": 4.9375,
+  "combined_01": 0.9646,
+  "per_style": {
+    "formal": {
+      "avg_accuracy": 4.75,
+      "avg_tone_fit": 5.0
+    },
+    "sarcastic": {
+      "avg_accuracy": 4.75,
+      "avg_tone_fit": 4.9167
+    },
+    "humorous_tech": {
+      "avg_accuracy": 4.75,
+      "avg_tone_fit": 5.0
+    },
+    "humorous_non_tech": {
+      "avg_accuracy": 4.5833,
+      "avg_tone_fit": 4.8333
+    }
+  },
+  "delta_vs_arush": -0.0021
+}
+
+=== GENERATE scene_frames: Scene-change + uniform frame mix ===
+[scene_frames] g2 done
+[scene_frames] g1 done
+[scene_frames] g3 done
+[scene_frames] g4 done
+[exp] specialist failed humorous_tech: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/core.py", line 211, in run_specialists_and_select
+    candidates[s] = client.generate_json(
+                    ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/llm_client.py", line 111, in generate_json
+    return json.loads(_text_of(response))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Unterminated string starting at: line 1 column 212 (char 211)
+
+[exp] specialist failed humorous_tech: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/core.py", line 211, in run_specialists_and_select
+    candidates[s] = client.generate_json(
+                    ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/llm_client.py", line 111, in generate_json
+    return json.loads(_text_of(response))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Unterminated string starting at: line 1 column 222 (char 221)
+
+[scene_frames] g5 done
+[scene_frames] g6 done
+[scene_frames] g7 done
+[scene_frames] g8 done
+[scene_frames] g9 done
+[scene_frames] g10 done
+[scene_frames] g11 done
+[scene_frames] g12 done
+[scene_frames] wall=257.8s
+
+=== JUDGE scene_frames ===
+{
+  "title": "Scene-change + uniform frame mix",
+  "novel": true,
+  "num_scores": 48,
+  "avg_accuracy": 4.875,
+  "avg_tone_fit": 4.9792,
+  "combined_01": 0.9854,
+  "per_style": {
+    "formal": {
+      "avg_accuracy": 4.9167,
+      "avg_tone_fit": 5.0
+    },
+    "sarcastic": {
+      "avg_accuracy": 4.8333,
+      "avg_tone_fit": 4.9167
+    },
+    "humorous_tech": {
+      "avg_accuracy": 4.9167,
+      "avg_tone_fit": 5.0
+    },
+    "humorous_non_tech": {
+      "avg_accuracy": 4.8333,
+      "avg_tone_fit": 5.0
+    }
+  },
+  "delta_vs_arush": 0.0187
+}
+
+=== GENERATE cross_family_select: Claude candidates + Gemini frame selector ===
+[exp] custom select failed: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/core.py", line 229, in run_specialists_and_select
+    chosen = select_fn(description, candidates, frames_b64, sel_schema)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 134, in _gemini_select
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Unterminated string starting at: line 3 column 16 (char 247)
+
+[cross_family_select] g1 done
+[exp] custom select failed: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/core.py", line 229, in run_specialists_and_select
+    chosen = select_fn(description, candidates, frames_b64, sel_schema)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 134, in _gemini_select
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Unterminated string starting at: line 3 column 16 (char 305)
+
+[cross_family_select] g2 done
+[exp] custom select failed: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/core.py", line 229, in run_specialists_and_select
+    chosen = select_fn(description, candidates, frames_b64, sel_schema)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 134, in _gemini_select
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Unterminated string starting at: line 3 column 16 (char 259)
+
+[cross_family_select] g3 done
+[exp] custom select failed: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/core.py", line 229, in run_specialists_and_select
+    chosen = select_fn(description, candidates, frames_b64, sel_schema)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 138, in _gemini_select
+    val = str(data.get(s, "")).strip()
+              ^^^^^^^^
+AttributeError: 'list' object has no attribute 'get'
+
+[cross_family_select] g4 done
+[cross_family_select] g5 done
+[exp] custom select failed: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/core.py", line 229, in run_specialists_and_select
+    chosen = select_fn(description, candidates, frames_b64, sel_schema)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 134, in _gemini_select
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Unterminated string starting at: line 3 column 16 (char 256)
+
+[cross_family_select] g6 done
+[exp] custom select failed: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/core.py", line 229, in run_specialists_and_select
+    chosen = select_fn(description, candidates, frames_b64, sel_schema)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 134, in _gemini_select
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Unterminated string starting at: line 3 column 16 (char 271)
+
+[cross_family_select] g7 done
+[exp] custom select failed: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/core.py", line 229, in run_specialists_and_select
+    chosen = select_fn(description, candidates, frames_b64, sel_schema)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 134, in _gemini_select
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Unterminated string starting at: line 3 column 16 (char 276)
+
+[cross_family_select] g8 done
+[exp] custom select failed: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/core.py", line 229, in run_specialists_and_select
+    chosen = select_fn(description, candidates, frames_b64, sel_schema)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 134, in _gemini_select
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Unterminated string starting at: line 3 column 16 (char 193)
+
+[cross_family_select] g9 done
+[exp] custom select failed: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/core.py", line 229, in run_specialists_and_select
+    chosen = select_fn(description, candidates, frames_b64, sel_schema)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 134, in _gemini_select
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Unterminated string starting at: line 3 column 16 (char 244)
+
+[cross_family_select] g10 done
+[exp] custom select failed: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/core.py", line 229, in run_specialists_and_select
+    chosen = select_fn(description, candidates, frames_b64, sel_schema)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 134, in _gemini_select
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Unterminated string starting at: line 3 column 16 (char 279)
+
+[cross_family_select] g11 done
+[exp] custom select failed: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/core.py", line 229, in run_specialists_and_select
+    chosen = select_fn(description, candidates, frames_b64, sel_schema)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 134, in _gemini_select
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Unterminated string starting at: line 3 column 16 (char 251)
+
+[cross_family_select] g12 done
+[cross_family_select] wall=242.0s
+
+=== JUDGE cross_family_select ===
+{
+  "title": "Claude candidates + Gemini frame selector",
+  "novel": true,
+  "num_scores": 48,
+  "avg_accuracy": 4.8125,
+  "avg_tone_fit": 4.9583,
+  "combined_01": 0.9771,
+  "per_style": {
+    "formal": {
+      "avg_accuracy": 4.75,
+      "avg_tone_fit": 5.0
+    },
+    "sarcastic": {
+      "avg_accuracy": 5.0,
+      "avg_tone_fit": 5.0
+    },
+    "humorous_tech": {
+      "avg_accuracy": 4.9167,
+      "avg_tone_fit": 5.0
+    },
+    "humorous_non_tech": {
+      "avg_accuracy": 4.5833,
+      "avg_tone_fit": 4.8333
+    }
+  },
+  "delta_vs_arush": 0.0104
+}
+
+=== GENERATE claim_audit: Claude captions + Gemini claim-audit repair ===
+[exp] claim audit failed sarcastic: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 6 column 7 (char 116)
+
+[exp] claim audit failed humorous_tech: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 6 column 7 (char 114)
+
+[claim_audit] g1 done
+[exp] claim audit failed humorous_tech: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 6 column 7 (char 106)
+
+[claim_audit] g2 done
+[exp] claim audit failed sarcastic: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 5 column 29 (char 129)
+
+[claim_audit] g3 done
+[exp] claim audit failed humorous_tech: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Expecting property name enclosed in double quotes: line 5 column 99 (char 128)
+
+[exp] claim audit failed humorous_non_tech: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 5 column 29 (char 116)
+
+[claim_audit] g4 done
+[exp] claim audit failed sarcastic: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 6 column 7 (char 110)
+
+[exp] claim audit failed sarcastic: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 5 column 17 (char 115)
+
+[claim_audit] g5 done
+[exp] claim audit failed humorous_tech: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 5 column 29 (char 104)
+
+[exp] claim audit failed humorous_non_tech: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 5 column 29 (char 97)
+
+[claim_audit] g6 done
+[exp] claim audit failed sarcastic: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 6 column 7 (char 118)
+
+[exp] claim audit failed sarcastic: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 6 column 7 (char 108)
+
+[exp] claim audit failed humorous_non_tech: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 6 column 7 (char 113)
+
+[claim_audit] g7 done
+[exp] claim audit failed humorous_tech: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 6 column 7 (char 108)
+
+[exp] claim audit failed humorous_non_tech: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 6 column 31 (char 113)
+
+[claim_audit] g8 done
+[exp] claim audit failed sarcastic: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 6 column 7 (char 109)
+
+[exp] claim audit failed humorous_tech: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 6 column 7 (char 117)
+
+[claim_audit] g9 done
+[exp] claim audit failed sarcastic: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 5 column 32 (char 104)
+
+[exp] claim audit failed humorous_tech: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 5 column 29 (char 112)
+
+[exp] claim audit failed humorous_non_tech: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Expecting property name enclosed in double quotes: line 7 column 4 (char 89)
+
+[claim_audit] g10 done
+[exp] claim audit failed humorous_tech: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 5 column 29 (char 112)
+
+[claim_audit] g11 done
+[exp] claim audit failed sarcastic: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Unterminated string starting at: line 16 column 3 (char 395)
+
+[exp] claim audit failed humorous_non_tech: Traceback (most recent call last):
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 206, in arm_claim_audit
+    captions[s] = _gemini_audit_caption(frames, s, captions[s])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anupam/Code/himawari-fanboys/exp_arms/arms.py", line 190, in _gemini_audit_caption
+    data = json.loads((resp.text or "").strip())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 7 column 9 (char 114)
+
+[claim_audit] g12 done
+[claim_audit] wall=409.3s
+
+=== JUDGE claim_audit ===
+{
+  "title": "Claude captions + Gemini claim-audit repair",
+  "novel": true,
+  "num_scores": 48,
+  "avg_accuracy": 4.8125,
+  "avg_tone_fit": 4.9792,
+  "combined_01": 0.9792,
+  "per_style": {
+    "formal": {
+      "avg_accuracy": 5.0,
+      "avg_tone_fit": 5.0
+    },
+    "sarcastic": {
+      "avg_accuracy": 4.6667,
+      "avg_tone_fit": 4.9167
+    },
+    "humorous_tech": {
+      "avg_accuracy": 4.8333,
+      "avg_tone_fit": 5.0
+    },
+    "humorous_non_tech": {
+      "avg_accuracy": 4.75,
+      "avg_tone_fit": 5.0
+    }
+  },
+  "delta_vs_arush": 0.0125
+}
+
+===== SCOREBOARD =====
+{
+  "judge": "fireworks/accounts/fireworks/models/qwen3p7-plus",
+  "n_tasks": 12,
+  "input": "/Users/anupam/Code/himawari-fanboys/eval_input/tasks_gcs12.json",
+  "bias_rule": "Judge is Fireworks; generators are Claude (+Gemini assist on some arms). Never Claude-judging-Claude.",
+  "arms": {
+    "arush_baseline": {
+      "title": "Arush 0.87 lean baseline",
+      "novel": false,
+      "num_scores": 48,
+      "avg_accuracy": 4.75,
+      "avg_tone_fit": 4.9167,
+      "combined_01": 0.9667,
+      "per_style": {
+        "formal": {
+          "avg_accuracy": 5.0,
+          "avg_tone_fit": 5.0
+        },
+        "sarcastic": {
+          "avg_accuracy": 4.75,
+          "avg_tone_fit": 4.75
+        },
+        "humorous_tech": {
+          "avg_accuracy": 4.75,
+          "avg_tone_fit": 4.9167
+        },
+        "humorous_non_tech": {
+          "avg_accuracy": 4.5,
+          "avg_tone_fit": 5.0
+        }
+      },
+      "delta_vs_arush": 0.0
+    },
+    "verifiability": {
+      "title": "Verifiability-locked specialists/selection",
+      "novel": true,
+      "num_scores": 48,
+      "avg_accuracy": 4.6875,
+      "avg_tone_fit": 4.8958,
+      "combined_01": 0.9583,
+      "per_style": {
+        "formal": {
+          "avg_accuracy": 4.8333,
+          "avg_tone_fit": 5.0
+        },
+        "sarcastic": {
+          "avg_accuracy": 4.5833,
+          "avg_tone_fit": 4.75
+        },
+        "humorous_tech": {
+          "avg_accuracy": 4.75,
+          "avg_tone_fit": 5.0
+        },
+        "humorous_non_tech": {
+          "avg_accuracy": 4.5833,
+          "avg_tone_fit": 4.8333
+        }
+      },
+      "delta_vs_arush": -0.0084
+    },
+    "gemini_temporal": {
+      "title": "Gemini temporal notes + Claude describe",
+      "novel": true,
+      "num_scores": 48,
+      "avg_accuracy": 4.7083,
+      "avg_tone_fit": 4.9375,
+      "combined_01": 0.9646,
+      "per_style": {
+        "formal": {
+          "avg_accuracy": 4.75,
+          "avg_tone_fit": 5.0
+        },
+        "sarcastic": {
+          "avg_accuracy": 4.75,
+          "avg_tone_fit": 4.9167
+        },
+        "humorous_tech": {
+          "avg_accuracy": 4.75,
+          "avg_tone_fit": 5.0
+        },
+        "humorous_non_tech": {
+          "avg_accuracy": 4.5833,
+          "avg_tone_fit": 4.8333
+        }
+      },
+      "delta_vs_arush": -0.0021
+    },
+    "scene_frames": {
+      "title": "Scene-change + uniform frame mix",
+      "novel": true,
+      "num_scores": 48,
+      "avg_accuracy": 4.875,
+      "avg_tone_fit": 4.9792,
+      "combined_01": 0.9854,
+      "per_style": {
+        "formal": {
+          "avg_accuracy": 4.9167,
+          "avg_tone_fit": 5.0
+        },
+        "sarcastic": {
+          "avg_accuracy": 4.8333,
+          "avg_tone_fit": 4.9167
+        },
+        "humorous_tech": {
+          "avg_accuracy": 4.9167,
+          "avg_tone_fit": 5.0
+        },
+        "humorous_non_tech": {
+          "avg_accuracy": 4.8333,
+          "avg_tone_fit": 5.0
+        }
+      },
+      "delta_vs_arush": 0.0187
+    },
+    "cross_family_select": {
+      "title": "Claude candidates + Gemini frame selector",
+      "novel": true,
+      "num_scores": 48,
+      "avg_accuracy": 4.8125,
+      "avg_tone_fit": 4.9583,
+      "combined_01": 0.9771,
+      "per_style": {
+        "formal": {
+          "avg_accuracy": 4.75,
+          "avg_tone_fit": 5.0
+        },
+        "sarcastic": {
+          "avg_accuracy": 5.0,
+          "avg_tone_fit": 5.0
+        },
+        "humorous_tech": {
+          "avg_accuracy": 4.9167,
+          "avg_tone_fit": 5.0
+        },
+        "humorous_non_tech": {
+          "avg_accuracy": 4.5833,
+          "avg_tone_fit": 4.8333
+        }
+      },
+      "delta_vs_arush": 0.0104
+    },
+    "claim_audit": {
+      "title": "Claude captions + Gemini claim-audit repair",
+      "novel": true,
+      "num_scores": 48,
+      "avg_accuracy": 4.8125,
+      "avg_tone_fit": 4.9792,
+      "combined_01": 0.9792,
+      "per_style": {
+        "formal": {
+          "avg_accuracy": 5.0,
+          "avg_tone_fit": 5.0
+        },
+        "sarcastic": {
+          "avg_accuracy": 4.6667,
+          "avg_tone_fit": 4.9167
+        },
+        "humorous_tech": {
+          "avg_accuracy": 4.8333,
+          "avg_tone_fit": 5.0
+        },
+        "humorous_non_tech": {
+          "avg_accuracy": 4.75,
+          "avg_tone_fit": 5.0
+        }
+      },
+      "delta_vs_arush": 0.0125
+    }
+  },
+  "ranking_novel": [
+    {
+      "arm": "scene_frames",
+      "combined_01": 0.9854,
+      "delta_vs_arush": 0.0187
+    },
+    {
+      "arm": "claim_audit",
+      "combined_01": 0.9792,
+      "delta_vs_arush": 0.0125
+    },
+    {
+      "arm": "cross_family_select",
+      "combined_01": 0.9771,
+      "delta_vs_arush": 0.0104
+    },
+    {
+      "arm": "gemini_temporal",
+      "combined_01": 0.9646,
+      "delta_vs_arush": -0.0021
+    },
+    {
+      "arm": "verifiability",
+      "combined_01": 0.9583,
+      "delta_vs_arush": -0.0084
+    }
+  ]
+}

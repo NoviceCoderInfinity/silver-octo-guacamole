@@ -1,0 +1,197 @@
+{
+  "judge": "fireworks/accounts/fireworks/models/qwen3p7-plus",
+  "n_tasks": 12,
+  "input": "/Users/anupam/Code/himawari-fanboys/eval_input/tasks_gcs12.json",
+  "bias_rule": "Judge is Fireworks; generators are Claude (+Gemini assist on some arms). Never Claude-judging-Claude.",
+  "arms": {
+    "arush_baseline": {
+      "title": "Arush 0.87 lean baseline",
+      "novel": false,
+      "num_scores": 48,
+      "avg_accuracy": 4.75,
+      "avg_tone_fit": 4.9167,
+      "combined_01": 0.9667,
+      "per_style": {
+        "formal": {
+          "avg_accuracy": 5.0,
+          "avg_tone_fit": 5.0
+        },
+        "sarcastic": {
+          "avg_accuracy": 4.75,
+          "avg_tone_fit": 4.75
+        },
+        "humorous_tech": {
+          "avg_accuracy": 4.75,
+          "avg_tone_fit": 4.9167
+        },
+        "humorous_non_tech": {
+          "avg_accuracy": 4.5,
+          "avg_tone_fit": 5.0
+        }
+      },
+      "delta_vs_arush": 0.0
+    },
+    "verifiability": {
+      "title": "Verifiability-locked specialists/selection",
+      "novel": true,
+      "num_scores": 48,
+      "avg_accuracy": 4.6875,
+      "avg_tone_fit": 4.8958,
+      "combined_01": 0.9583,
+      "per_style": {
+        "formal": {
+          "avg_accuracy": 4.8333,
+          "avg_tone_fit": 5.0
+        },
+        "sarcastic": {
+          "avg_accuracy": 4.5833,
+          "avg_tone_fit": 4.75
+        },
+        "humorous_tech": {
+          "avg_accuracy": 4.75,
+          "avg_tone_fit": 5.0
+        },
+        "humorous_non_tech": {
+          "avg_accuracy": 4.5833,
+          "avg_tone_fit": 4.8333
+        }
+      },
+      "delta_vs_arush": -0.0084
+    },
+    "gemini_temporal": {
+      "title": "Gemini temporal notes + Claude describe",
+      "novel": true,
+      "num_scores": 48,
+      "avg_accuracy": 4.7083,
+      "avg_tone_fit": 4.9375,
+      "combined_01": 0.9646,
+      "per_style": {
+        "formal": {
+          "avg_accuracy": 4.75,
+          "avg_tone_fit": 5.0
+        },
+        "sarcastic": {
+          "avg_accuracy": 4.75,
+          "avg_tone_fit": 4.9167
+        },
+        "humorous_tech": {
+          "avg_accuracy": 4.75,
+          "avg_tone_fit": 5.0
+        },
+        "humorous_non_tech": {
+          "avg_accuracy": 4.5833,
+          "avg_tone_fit": 4.8333
+        }
+      },
+      "delta_vs_arush": -0.0021
+    },
+    "scene_frames": {
+      "title": "Scene-change + uniform frame mix",
+      "novel": true,
+      "num_scores": 48,
+      "avg_accuracy": 4.875,
+      "avg_tone_fit": 4.9792,
+      "combined_01": 0.9854,
+      "per_style": {
+        "formal": {
+          "avg_accuracy": 4.9167,
+          "avg_tone_fit": 5.0
+        },
+        "sarcastic": {
+          "avg_accuracy": 4.8333,
+          "avg_tone_fit": 4.9167
+        },
+        "humorous_tech": {
+          "avg_accuracy": 4.9167,
+          "avg_tone_fit": 5.0
+        },
+        "humorous_non_tech": {
+          "avg_accuracy": 4.8333,
+          "avg_tone_fit": 5.0
+        }
+      },
+      "delta_vs_arush": 0.0187
+    },
+    "cross_family_select": {
+      "title": "Claude candidates + Gemini frame selector",
+      "novel": true,
+      "num_scores": 48,
+      "avg_accuracy": 4.8125,
+      "avg_tone_fit": 4.9583,
+      "combined_01": 0.9771,
+      "per_style": {
+        "formal": {
+          "avg_accuracy": 4.75,
+          "avg_tone_fit": 5.0
+        },
+        "sarcastic": {
+          "avg_accuracy": 5.0,
+          "avg_tone_fit": 5.0
+        },
+        "humorous_tech": {
+          "avg_accuracy": 4.9167,
+          "avg_tone_fit": 5.0
+        },
+        "humorous_non_tech": {
+          "avg_accuracy": 4.5833,
+          "avg_tone_fit": 4.8333
+        }
+      },
+      "delta_vs_arush": 0.0104
+    },
+    "claim_audit": {
+      "title": "Claude captions + Gemini claim-audit repair",
+      "novel": true,
+      "num_scores": 48,
+      "avg_accuracy": 4.8125,
+      "avg_tone_fit": 4.9792,
+      "combined_01": 0.9792,
+      "per_style": {
+        "formal": {
+          "avg_accuracy": 5.0,
+          "avg_tone_fit": 5.0
+        },
+        "sarcastic": {
+          "avg_accuracy": 4.6667,
+          "avg_tone_fit": 4.9167
+        },
+        "humorous_tech": {
+          "avg_accuracy": 4.8333,
+          "avg_tone_fit": 5.0
+        },
+        "humorous_non_tech": {
+          "avg_accuracy": 4.75,
+          "avg_tone_fit": 5.0
+        }
+      },
+      "delta_vs_arush": 0.0125
+    }
+  },
+  "ranking_novel": [
+    {
+      "arm": "scene_frames",
+      "combined_01": 0.9854,
+      "delta_vs_arush": 0.0187
+    },
+    {
+      "arm": "claim_audit",
+      "combined_01": 0.9792,
+      "delta_vs_arush": 0.0125
+    },
+    {
+      "arm": "cross_family_select",
+      "combined_01": 0.9771,
+      "delta_vs_arush": 0.0104
+    },
+    {
+      "arm": "gemini_temporal",
+      "combined_01": 0.9646,
+      "delta_vs_arush": -0.0021
+    },
+    {
+      "arm": "verifiability",
+      "combined_01": 0.9583,
+      "delta_vs_arush": -0.0084
+    }
+  ]
+}

@@ -1,0 +1,328 @@
+{
+  "summary": {
+    "num_scores": 48,
+    "avg_accuracy": 4.875,
+    "avg_tone_fit": 4.9792,
+    "combined_01": 0.9854,
+    "per_style": {
+      "formal": {
+        "avg_accuracy": 4.9167,
+        "avg_tone_fit": 5.0
+      },
+      "sarcastic": {
+        "avg_accuracy": 4.8333,
+        "avg_tone_fit": 4.9167
+      },
+      "humorous_tech": {
+        "avg_accuracy": 4.9167,
+        "avg_tone_fit": 5.0
+      },
+      "humorous_non_tech": {
+        "avg_accuracy": 4.8333,
+        "avg_tone_fit": 5.0
+      }
+    }
+  },
+  "results": [
+    {
+      "task_id": "g1",
+      "scores": {
+        "formal": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption precisely describes the visual elements: the backlighting, the dog's transition from walking to running away, the grassy field, and the specific detail of white-blossomed trees on the right. The tone is perfectly objective and declarative, fitting the formal style definition without any subjective language."
+        },
+        "sarcastic": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption accurately identifies the key visual flaw (pointing camera at the sun/overexposure) and the subject (dog running). The tone successfully employs mock admiration ('cinematic mastery', 'hazy, overexposed miracle') to ironically critique the technical quality of the shot, fitting the sarcastic definition perfectly."
+        },
+        "humorous_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption maps the visual action (dog running to trees) to a programming concept ('infinite loop', 'exit condition') and the visual artifact (vertical lens flare) to a UI element ('progress bar', 'rendering'). The joke is specific to the visual evidence in the frames and adheres strictly to the tech-humor constraint."
+        },
+        "humorous_non_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption correctly identifies the lighting ('sunset making everything glow') and the action ('sprint full speed toward the trees'). The humor is derived from attributing human-like dramatic intent to the dog's behavior ('dramatic movie ending', 'no explanation given'), which is warm, relatable, and completely free of tech references."
+        }
+      }
+    },
+    {
+      "task_id": "g2",
+      "scores": {
+        "formal": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption accurately describes the visual progression of the clip: the aerial movement, the specific lighting conditions (warm sunset/dusk), the foreground elements (piers, traffic), and the background skyline. The tone is perfectly objective and descriptive, fitting the 'formal' definition without any subjective language."
+        },
+        "sarcastic": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption correctly identifies the boats and the golden light on the buildings. The tone successfully employs dry understatement ('doing absolutely nothing') to mock the static nature of the architecture, fitting the 'sarcastic' requirement for light mocking and deadpan delivery."
+        },
+        "humorous_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption maps the camera's panning motion to a 'horizontal scroll' and personifies the Empire State Building as a UI element that 'refuses to leave the viewport' (like a sticky header or fixed position element). This is a specific, recognizable tech/programming joke that aligns perfectly with the visual action of the pan."
+        },
+        "humorous_non_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption focuses on the orange reflection on the glass towers and maps it to a relatable human behavior (checking one's reflection/blushing). It avoids all tech references and uses a warm, conversational tone ('honestly, who wouldn't') that fits the 'humorous_non_tech' style."
+        }
+      }
+    },
+    {
+      "task_id": "g3",
+      "scores": {
+        "formal": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption accurately identifies the key visual elements: the silhouetted ship/barge on the horizon, the choppy waves, the pink/red reflection, and the dark shoreline. The tone is perfectly objective, descriptive, and professional, fitting the 'formal' style definition without any slang or opinion."
+        },
+        "sarcastic": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption correctly describes the visible action (water churning, reflecting sunset) while applying the requested dry, mocking tone ('dutifully churns', 'needs a mirror'). It adheres to the single-sentence constraint and captures the specific visual of the pink reflection on the choppy water."
+        },
+        "humorous_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption cleverly maps the visual stasis of the 11 frames to a tech concept ('deploy stuck in progress'). It accurately notes that the water is the only thing changing ('rippling tiny diffs') while the ship remains static. The joke is specific to the video's nature (a sequence of near-identical frames) and fits the tech humor style perfectly."
+        },
+        "humorous_non_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption uses the visual of the pink, choppy water to make a relatable, non-tech comparison ('mood ring', 'can't decide if today is going great or just okay'). It grounds the humor in the specific colors and movement seen in the clip while maintaining a warm, everyday tone devoid of technical references."
+        }
+      }
+    },
+    {
+      "task_id": "g4",
+      "scores": {
+        "formal": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption accurately identifies specific visual elements like the 'white patterned facade building', 'blue digital screens', and distinct vehicle types (green-and-white taxis, red taxi). The tone is perfectly objective and descriptive, fitting the formal style definition without any slang or opinion."
+        },
+        "sarcastic": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption correctly describes the visible action of crowds crossing diagonally in unison. The tone successfully employs mock admiration ('humanity's finest choreography', 'perfect unison') to ironically highlight the mechanical nature of obeying traffic signals, fitting the sarcastic definition well."
+        },
+        "humorous_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption maps the visible traffic light cycle and pedestrian movement onto the programming concept of a 'mutex lock' and 'shared resource'. It accurately references specific vehicles seen in the clip (buses, green-and-white taxis) while maintaining a funny, tech-centric analogy that fits the style perfectly."
+        },
+        "humorous_non_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption captures the visible surge of people crossing and then waiting. The analogy of a 'buffet that's about to close' is a relatable, non-tech humor that effectively describes the urgency and subsequent aimlessness seen in the crowd's behavior, matching the humorous_non_tech style."
+        }
+      }
+    },
+    {
+      "task_id": "g5",
+      "scores": {
+        "formal": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption precisely identifies the key visual elements: the rocky terrain in the foreground, the prominent peak in the background, the hazy skyline, and the sky color. The tone is perfectly objective and descriptive, matching the 'formal' definition without any subjective language or slang."
+        },
+        "sarcastic": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption accurately describes the visible elements (granite ridge, peak, sky color) while adopting a perfect dry, mocking tone. It specifically targets the visible color grading ('golden-teal filter') and the lack of movement ('triumph of stillness'), fitting the 'sarcastic' style definition of mock admiration and subtle wit."
+        },
+        "humorous_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption effectively maps the slow, steady drone movement to a 'buffering wheel' or 'loading' screen, which is a recognizable tech joke. It correctly identifies the visual subjects (granite ridge, hazy skyline) and integrates them into the metaphor ('waiting for a software update to render'), fulfilling the requirement for a tech-based joke grounded in the clip's content."
+        },
+        "humorous_non_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption uses a relatable, non-tech metaphor (needing coffee vs. being 'fully dressed') to describe the visual contrast between the hazy background and the sharp foreground mountains. It avoids all technology references and maintains a warm, humorous tone that aligns with the 'humorous_non_tech' definition."
+        }
+      }
+    },
+    {
+      "task_id": "g6",
+      "scores": {
+        "formal": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption accurately identifies the silver ring, the laptop keyboard, and the blurred background elements. The tone is perfectly objective and descriptive, adhering strictly to the 'formal' style definition without any subjective language or humor."
+        },
+        "sarcastic": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption correctly identifies the visual hierarchy (sharp keyboard vs. blurred mouse) and uses it to construct a dry, ironic narrative about the mouse being 'unemployed.' This fits the 'sarcastic' tone definition of mock admiration and understatement perfectly."
+        },
+        "humorous_tech": {
+          "accuracy": 4,
+          "tone_fit": 5,
+          "notes": "The caption successfully integrates tech-specific humor ('committing code', 'status LED', 'left-clicked') with the visual elements (ring, typing hand, blurry mouse). The tone is witty and clearly targets a tech-savvy audience as requested."
+        },
+        "humorous_non_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption focuses on relatable, non-tech themes like 'golden afternoon light' and the universal feeling of a 'deadline and a nap competing.' It avoids all technical jargon while accurately describing the ring and the typing action, fitting the 'humorous_non_tech' style perfectly."
+        }
+      }
+    },
+    {
+      "task_id": "g7",
+      "scores": {
+        "formal": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption accurately describes the POV from a vehicle, the wet road surface reflecting streetlights, and the specific action of the traffic signal changing from red (visible in frames 1-2) to green (visible in frames 3-8). The tone is perfectly objective and declarative."
+        },
+        "sarcastic": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption correctly identifies the visual elements: the red-to-green light change and the blurry/fogged window quality (evident in the bokeh and lack of sharp focus). The tone successfully uses mock admiration ('thrilling tension') to highlight the mundane nature of the event."
+        },
+        "humorous_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption maps the visible traffic light change (red to green) and the wet street setting onto a relatable tech scenario (stuck deploy/pending status). The humor is specific to the tech domain while remaining grounded in the visual evidence of the clip."
+        },
+        "humorous_non_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption accurately reflects the visual distortion of the streetlights caused by the rain/window, describing them as 'glowing meatballs'. The humor is relatable and non-technical, focusing on the feeling of impatience at a stoplight, which fits the static nature of the early frames."
+        }
+      }
+    },
+    {
+      "task_id": "g8",
+      "scores": {
+        "formal": {
+          "accuracy": 4,
+          "tone_fit": 5,
+          "notes": "The caption accurately describes the setting (rooftop, high-rises, string lights) and the action (man gesturing, friends listening). It loses one point on accuracy because it states there are 'four glasses of beer' when there are clearly only three visible on the table in every frame. The tone is perfectly objective and declarative, fitting the 'formal' definition."
+        },
+        "sarcastic": {
+          "accuracy": 3,
+          "tone_fit": 4,
+          "notes": "The tone successfully captures a dry, mocking wit ('exactly the polite laughter you'd expect'). However, accuracy is penalized because it claims the group has 'had four beers between three of them,' whereas the video consistently shows three full glasses. The description of the laughter as 'polite' is also subjective; the woman in the center appears to be laughing quite genuinely and openly in frames 3-8."
+        },
+        "humorous_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption perfectly maps the visual actions to tech concepts: the storyteller 'deploying to prod,' the listeners 'throwing exceptions' (laughing), and the beers as 'backup instances.' The scene is clearly recognizable despite the jargon. The humor is specific to the requested domain and fits the 1-2 sentence constraint."
+        },
+        "humorous_non_tech": {
+          "accuracy": 4,
+          "tone_fit": 5,
+          "notes": "The humor is warm, relatable, and strictly non-technical ('waving his hands like he's landing a plane'). It accurately reflects the visual progression of the story gaining traction and the group's reaction. It loses one point on accuracy for the claim about 'the poor beer nobody's touched,' as all three glasses appear to have been consumed to a similar level, implying shared drinking rather than one neglected beverage."
+        }
+      }
+    },
+    {
+      "task_id": "g9",
+      "scores": {
+        "formal": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption accurately identifies the key visual elements: the pebbled shore, the rolling waves with white foam, and the misty green cliff in the background. The tone is perfectly objective and descriptive, fitting the 'formal' style definition without any slang or opinion."
+        },
+        "sarcastic": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption correctly notes the static camera and the presence of the headland and mist. The tone successfully employs dry wit by framing the lack of camera movement as 'remarkable restraint' and mocking the ocean's predictability, which aligns well with the 'sarcastic' style."
+        },
+        "humorous_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption maps the visual action of waves repeatedly hitting the shore to the tech concept of 'force-pushing' code commits and 'merge conflicts'. This is a clever and accurate analogy for the repetitive motion seen in the frames, and the humor is specific to the requested tech domain."
+        },
+        "humorous_non_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption uses the visual of the stationary cliff versus the active waves to create a relatable workplace analogy about a coworker who avoids work. It avoids all tech references and relies on everyday social dynamics, fitting the 'humorous_non_tech' style perfectly while remaining grounded in the visual evidence."
+        }
+      }
+    },
+    {
+      "task_id": "g10",
+      "scores": {
+        "formal": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption accurately describes the sequence of events: a train departing (implied by the empty track in early frames), the empty track, and the arrival of the yellow-and-purple train (visible from frame 2 onwards). The tone is perfectly objective and descriptive, matching the 'formal' style definition."
+        },
+        "sarcastic": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption correctly identifies the visible elements (trains moving, people sitting). The tone successfully employs dry understatement and mock admiration ('bravely managing to sit') to highlight the mundane nature of waiting, fitting the 'sarcastic' style perfectly."
+        },
+        "humorous_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption maps the visual of a person waiting for a train to the relatable tech experience of watching a progress bar or waiting for a program to 'load and render'. The analogy is clear, funny, and grounded in the specific visual of the man staring down the track."
+        },
+        "humorous_non_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption focuses on two distinct visual elements: the highly reflective floor (visible in the foreground of all frames) and the man's posture. The humor is relatable and observational ('giving the tracks a stern look'), avoiding any tech references as required."
+        }
+      }
+    },
+    {
+      "task_id": "g11",
+      "scores": {
+        "formal": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption accurately identifies the striped apron, the dicing of zucchini, and the wooden board. It correctly describes the action of gathering the pieces with the flat side of the blade (visible in frames 4-6) and mentions the pan of vegetables in the foreground. The tone is perfectly objective and declarative."
+        },
+        "sarcastic": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption correctly identifies the zucchini dicing and the apron. It effectively uses the visual element of the large, out-of-focus green object (lettuce) entering the frame in the final shots as a 'photobomb,' fitting the dry, mocking tone required."
+        },
+        "humorous_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption maps the visual action of gathering the diced zucchini (frames 4-6) to a 'mass merge' and an 'uncommitted branch,' which is a clever programming analogy. It also references the 'out-of-focus green blob' (the lettuce) as a rendering crash, maintaining the tech humor while staying grounded in the visual content."
+        },
+        "humorous_non_tech": {
+          "accuracy": 4,
+          "tone_fit": 5,
+          "notes": "The caption captures the rhythmic action of chopping and the presence of the pan. While the pan is visible in the foreground, the specific action of adding the zucchini to it is only implied by the gathering motion, making the 'waiting like a patient friend' personification a creative but slightly interpretive leap. The tone is warm and relatable."
+        }
+      }
+    },
+    {
+      "task_id": "g12",
+      "scores": {
+        "formal": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption is a precise, objective description of the visual elements: the sunlit track, the green fence, the empty white bleachers, and the single runner crossing from left to right. The tone is perfectly neutral and declarative, fitting the 'formal' style definition without any slang or opinion."
+        },
+        "sarcastic": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption accurately describes the empty seats and the single runner. The tone successfully employs dry irony by personifying the seats as 'vigilantly ready' and mocking the stadium's 'talent' for hosting nobody, which aligns perfectly with the requested sarcastic style."
+        },
+        "humorous_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption correctly identifies the runner in blue shorts and the empty track. It effectively maps the visual sequence (stillness, sudden action, return to stillness) onto a programming concept ('race condition', 'function call', 'unrendered'), creating a joke that is specific to the tech domain while remaining grounded in the video's content."
+        },
+        "humorous_non_tech": {
+          "accuracy": 5,
+          "tone_fit": 5,
+          "notes": "The caption accurately notes the man in blue shorts and the empty bleachers. The humor is relatable and non-technical, using the 'Monday morning' analogy to describe the lack of energy in the scene, which fits the 'humorous_non_tech' definition perfectly."
+        }
+      }
+    }
+  ]
+}

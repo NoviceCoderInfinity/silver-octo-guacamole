@@ -18,7 +18,7 @@ ARG GEMINI_API_KEY=""
 ENV GEMINI_API_KEY=${GEMINI_API_KEY}
 
 # claude = frame describe (Arush-compatible); gemini = full-video describe front-end.
-ARG DESCRIBE_BACKEND="gemini"
+ARG DESCRIBE_BACKEND="claude"
 ENV DESCRIBE_BACKEND=${DESCRIBE_BACKEND}
 
 ARG GEMINI_MODEL_ID="gemini-3-flash-preview"

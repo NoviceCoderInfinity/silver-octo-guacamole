@@ -25,5 +25,5 @@ tag extraction fails on the hidden set.
 ## Image
 ```
 ghcr.io/novicecoderinfinity/silver-octo-guacamole:qwen-direct
-digest: (pending push)
+digest: sha256:2250f33798e7171d3c40bcfb962c534f8683acf3de296dab7ab8ab36fa601c6a
 ```

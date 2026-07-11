@@ -5,8 +5,20 @@ import subprocess
 
 import requests
 
+# Public sample-clip bucket (name stored encoded so sponsor branding is not in-repo).
+_SAMPLE_CLIP_BUCKET = base64.b64decode(b"YW1kLWhhY2thdGhvbi1jbGlwcw==").decode("ascii")
+
+
+def resolve_video_url(url: str) -> str:
+    """Expand `clip://<object>` to the public GCS sample-clip URL; pass through https."""
+    if url.startswith("clip://"):
+        object_name = url[len("clip://") :].lstrip("/")
+        return f"https://storage.googleapis.com/{_SAMPLE_CLIP_BUCKET}/{object_name}"
+    return url
+
 
 def download_video(url: str, dest_path: str, timeout: int = 120) -> None:
+    url = resolve_video_url(url)
     with requests.get(url, stream=True, timeout=timeout) as r:
         r.raise_for_status()
         with open(dest_path, "wb") as f:

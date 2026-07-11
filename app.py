@@ -18,11 +18,12 @@ except Exception:
 import config
 from llm_client import ClaudeClient
 from pipeline import STYLE_GUIDE, captions_from_description, describe_video
+from video_utils import resolve_video_url
 
 EXAMPLE_CLIPS = {
-    "Urban autumn boulevard (city traffic)": "https://storage.googleapis.com/amd-hackathon-clips/1860079-uhd_2560_1440_25fps.mp4",
-    "Orange kitten in a garden": "https://storage.googleapis.com/amd-hackathon-clips/13825391-uhd_3840_2160_30fps.mp4",
-    "Office worker at a computer": "https://storage.googleapis.com/amd-hackathon-clips/3044693-uhd_3840_2160_24fps.mp4",
+    "Urban autumn boulevard (city traffic)": "clip://1860079-uhd_2560_1440_25fps.mp4",
+    "Orange kitten in a garden": "clip://13825391-uhd_3840_2160_30fps.mp4",
+    "Office worker at a computer": "clip://3044693-uhd_3840_2160_24fps.mp4",
 }
 
 STYLE_LABELS = {
@@ -58,8 +59,8 @@ def get_client(api_key: str) -> ClaudeClient:
 st.set_page_config(page_title="Video Captioning Agent", page_icon="🎬", layout="centered")
 st.title("🎬 Video Captioning Agent")
 st.caption(
-    "AMD Developer Hackathon — Track 2. Paste any video URL (or pick an example clip), "
-    "choose the caption styles, and the agent watches the clip and writes a caption in each tone."
+    "Paste any video URL (or pick an example clip), choose the caption styles, "
+    "and the agent watches the clip and writes a caption in each tone."
 )
 
 source = st.radio("Video source", ["Example clip", "Custom URL"], horizontal=True)
@@ -76,8 +77,9 @@ styles = st.multiselect(
     format_func=lambda s: STYLE_LABELS.get(s, s),
 )
 
-if video_url:
-    st.video(video_url)
+play_url = resolve_video_url(video_url) if video_url else ""
+if play_url:
+    st.video(play_url)
 
 if st.button("Generate captions", type="primary", disabled=not (video_url and styles)):
     api_key = _get_api_key()

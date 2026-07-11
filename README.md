@@ -1,212 +1,184 @@
-# AMD Hackathon — Track 2: Video Captioning Agent
+# Multi-style video captioning agent
 
-Pipeline: download clip → sample frames with ffmpeg (~1 frame per 5s, 8–20 frames depending
-on clip length) → describe frames with Claude Opus vision → rewrite the description into
-4 styles in one structured-outputs call (valid JSON with exactly the requested style keys).
-The submitted generator defaults to `claude-opus-4-8`; override via `CLAUDE_MODEL_ID`.
+Docker agent that reads `/input/tasks.json`, captions each clip in four styles
+(`formal`, `sarcastic`, `humorous_tech`, `humorous_non_tech`), and writes
+`/output/results.json`. Built for a graded Track 2 harness that injects **no**
+env vars at runtime — credentials must be baked into the image at build time.
 
-Two ways to run the same pipeline:
+**Repo:** [NoviceCoderInfinity/silver-octo-guacamole](https://github.com/NoviceCoderInfinity/silver-octo-guacamole)  
+**Graded image:** `ghcr.io/novicecoderinfinity/silver-octo-guacamole:latest`  
+**Team:** Himawari
 
-- **`main.py`** — batch mode for the judging harness (`/input/tasks.json` → `/output/results.json`)
-- **`app.py`** — interactive Streamlit demo (paste a video URL, pick styles, see captions)
+---
 
-A third script, **`judge.py`**, is an LLM-as-a-judge: it re-examines each clip's frames and
-scores a `results.json`'s captions for accuracy (does it reflect the video) and tone_fit
-(does it match the requested style).
+## Status (pick-up snapshot)
 
-## Project structure
+| Signal | Value | Notes |
+| --- | ---: | --- |
+| Official leaderboard (Himawari) | **~0.86** | Hidden ~12-clip set; last confirmed after `scene_frames` resubmit |
+| Top of board (competitors) | **~0.90–0.91** | Gap ≈ **−0.04 to −0.05** |
+| Friend lean baseline (Arush) | **0.87** on board | Describe → per-style best-of-2 → frame selection |
+| Current shipped code on `main` | `CAPTION_MODE=formal_grounded` | Uniform frames + Claude describe; critique/repair **off** |
+| Best local Δ vs Arush (Fireworks) | **`formal_grounded` +0.027** | 12 public clips; did **not** yet prove on the hidden board |
+| Prior ship that flatlined on board | `scene_frames` local **+0.019** → board still **~0.86** | Treat local absolute scores (~0.97–0.99) as saturated |
 
-```
-.
-├── main.py              entry point: reads /input/tasks.json, writes /output/results.json
-├── app.py               Streamlit demo UI wrapping the same pipeline
-├── judge.py             LLM-as-judge: scores a results.json against the source videos
-├── packages.txt         system deps for Streamlit Cloud (ffmpeg)
-├── pipeline.py           core video -> caption logic (describe frames, rewrite into styles)
-├── llm_client.py         Claude + Fireworks clients (vision description + structured JSON)
-├── video_utils.py        ffmpeg/ffprobe helpers: download, extract frames, base64-encode
-├── config.py             loads .env and exposes API key/endpoint/model/frame settings
-├── describe_videos.py    local-only helper: dumps a long detailed description per clip
-├── requirements.txt      Python dependencies
-├── Dockerfile            container image definition (this is what gets graded)
-├── .env                  your real API key/model (gitignored, never committed)
-├── .env.example          template showing which vars .env needs (safe to commit)
-├── .gitignore            excludes .env, __pycache__, *.pyc from git
-├── sample_input/
-│   └── tasks.json        example input: video URLs + requested caption styles
-└── sample_output/
-    ├── results.json       graded output: captions per style per task
-    ├── descriptions.json  output of describe_videos.py (not part of grading)
-    └── judged_results.json output of judge.py (not part of grading)
-```
+If you are new here: optimize for **hidden-board movement**, not local Fireworks
+absolute scores. Prefer **Δ vs Arush** on the 12-clip suite, then resubmit and
+check the official board.
 
-### What each file does
+---
 
-- **`main.py`** — The entry point that actually gets graded. Reads tasks from
-  `/input/tasks.json` (or `$INPUT_PATH` if set), calls `caption_video` for each one, and
-  writes `/output/results.json` (or `$OUTPUT_PATH`). Catches per-task exceptions so one
-  failing clip doesn't take down the whole batch.
-- **`pipeline.py`** — The actual captioning logic. `_describe_video` downloads the clip,
-  extracts frames, and asks the vision model for a compact 3–5 sentence factual description.
-  `caption_video` takes that description and asks the same model to rewrite it into the 4
-  requested styles (`formal`, `sarcastic`, `humorous_tech`, `humorous_non_tech`) as one JSON
-  object in a single call.
-- **`llm_client.py`** — `ClaudeClient` for the submitted Sonnet generator plus
-  `FireworksClient` for judge/dev experiments. Both expose `describe_frames` (frames as
-  base64 image blocks + prompt) and `generate_json` (structured JSON for the styled
-  captions).
-- **`judge.py`** — Standalone LLM-as-a-judge tool. For each task in a `results.json`, it
-  re-downloads the clip and re-samples frames (the same ground truth the captioning model
-  saw — not the text description it produced, so the judge isn't just checking
-  self-consistency), then asks the model to score each style's caption 1-5 on `accuracy`
-  and `tone_fit` with a short justification. Writes a summary + per-task scores to
-  `judged_results.json`. Not part of the graded contract.
-- **`video_utils.py`** — `download_video` (streams a URL to disk), `extract_frames` (evenly
-  spaced JPEGs via ffmpeg, downscaled), and `frame_to_b64` (raw base64 for the vision API).
-- **`config.py`** — Calls `load_dotenv()` so values in `.env` are picked up automatically,
-  then reads `ANTHROPIC_API_KEY`, `CLAUDE_MODEL_ID`, optional Fireworks judge/dev settings,
-  and the frame-sampling constants (`SECONDS_PER_FRAME`, `MIN_FRAMES`, `MAX_FRAMES`,
-  `FRAME_MAX_WIDTH`).
-- **`describe_videos.py`** — A standalone dev script (not used by `main.py` or the Docker
-  image) that runs each task's video through a much longer, more detailed description prompt
-  and saves the results to `descriptions.json`. Useful for inspecting what the model actually
-  "sees" before it gets compressed into short styled captions.
-- **`.env` / `.env.example`** — `.env` holds your real key and model ID and is gitignored.
-  `.env.example` is the same file with a placeholder key, meant to be committed so anyone
-  cloning the repo knows what to fill in.
+## How ranking works
 
-## Changing the model
+### Official (what the leaderboard uses)
 
-The key and submitted generator model ID are read from the environment, so you can switch
-Claude models without touching code — just edit `.env`:
+- Hidden evaluation set (~12 clips).
+- Score mixes **caption accuracy** (does the text match the video) and **style
+  match** (does it fit `formal` / `sarcastic` / humor variants).
+- Your container is run with mounts for `/input` and `/output` only — **no**
+  `-e` API keys. The image must already contain credentials.
+- Output contract: list of `{ "task_id", "captions": { style: string } }`.
 
-```
-ANTHROPIC_API_KEY=sk-ant-...
-CLAUDE_MODEL_ID=claude-opus-4-8
-```
+### Local ranking (what we use to choose arms)
 
-Then rerun `python3 main.py` (see below). Fireworks variables are optional and are only
-needed when using `judge.py` with a Fireworks judge.
+1. **Baseline:** Arush lean 0.87 pipeline (friend repo / worktree), same clips.
+2. **Judge:** Fireworks `qwen3p7-plus` only — **never Claude judging Claude**.
+3. **Metric:** per caption `accuracy` and `tone_fit` (1–5) → combined 0–1 score;
+   report **Δ vs Arush**, not the absolute 0.98.
+4. **Eval set:** `eval_input/tasks_gcs12.json` (12 clips × 4 styles).
+5. **Caveat:** `scene_frames` won locally (+0.019) and **did not move** the
+   official ~0.86 score. Local wins are hypotheses until the board confirms.
 
-### Submission model history
+Artifacts:
 
-The project has been tested through Claude Haiku, Fireworks Qwen, Claude Sonnet, and now
-Claude Opus. The current submitted image uses Opus as the VLM/generator.
+- `sample_output/exp_novel_v1/SCOREBOARD.md` — v1 arms (`scene_frames` led)
+- v2 summary below (suite lived on `experiments/novel-arms-v2` / stash)
 
-## Before you build
+| Arm | Combined | Δ vs Arush | Mechanism |
+| --- | ---: | ---: | --- |
+| **formal_grounded** (shipped) | 0.994 | **+0.027** | Formal first; other styles locked to its entities |
+| anchor_facts | 0.988 | +0.021 | 5 main-subject facts, then style |
+| motion_budget | 0.988 | +0.021 | Adaptive frame count + scene mix |
+| scene_frames (shipped earlier) | 0.985 | +0.019 | Scene-change peaks + uniform fill |
+| claim_audit / gemini_humor | 0.979 | +0.013 | Gemini assist on claims / humor |
 
-Copy `.env.example` to `.env` and paste your real Anthropic API key:
+---
 
-```bash
-cp .env.example .env
-# edit .env and set ANTHROPIC_API_KEY (and optionally CLAUDE_MODEL_ID)
-```
+## Branches (this remote: `personal` → silver-octo-guacamole)
 
-## Local test (no Docker)
+| Branch | What it is |
+| --- | --- |
+| **`main`** | Graded path. Defaults: Claude describe, **uniform** frames, **`formal_grounded`**, critique off. Pin: `submit/formal-grounded` (same commit family). |
+| `submit/formal-grounded` | Explicit submit pin for the current image. |
+| `submit/scene-frames` | Prior ship: `FRAME_SAMPLE_MODE=scene`. Local +0.019; board unchanged (~0.86). |
+| `submit/gemini-describe-hybrid` | Gemini full-video describe → Claude specialists. Local 3-clip A/B tied Arush (0.917). |
+| `experiments/novel-arms-v1` | Fireworks suite + scoreboard for scene/claim/cross-family/… |
+| `experiments/novel-arms-v2` | WIP / stash: formal_grounded, anchor_facts, motion_budget, … |
+| Friend `Arush777/himawari-fanboys` `main` | Lean **0.87** reference — **do not push here** unless asked. Local remote name is often `origin`. |
 
-`main.py` defaults to `/input/tasks.json` and `/output/results.json` (the paths required for
-grading), but both are overridable via `INPUT_PATH`/`OUTPUT_PATH` env vars for local runs:
+Work on **`NoviceCoderInfinity/silver-octo-guacamole` only** (`git remote` name:
+`personal`) unless someone explicitly says otherwise.
+
+---
+
+## Current pipeline (what `main` runs)
+
+1. Download clip (`clip://…` sample refs resolve in `video_utils.resolve_video_url`).
+2. Sample frames (default **uniform**; optional `FRAME_SAMPLE_MODE=scene`).
+3. Claude vision **describe**.
+4. **`formal_grounded`:** write `formal` first (specialist + selection), then write
+   the other styles with an entity lock to that formal caption.
+5. Write `/output/results.json`.
+
+Key knobs (`config.py` / Docker `ARG`/`ENV`):
+
+| Var | Graded default | Meaning |
+| --- | --- | --- |
+| `DESCRIBE_BACKEND` | `claude` | `claude` frames or `gemini` full-video describe |
+| `FRAME_SAMPLE_MODE` | `uniform` | `uniform` or `scene` |
+| `CAPTION_MODE` | `formal_grounded` | or `default` (all styles in parallel) |
+| `ENABLE_CRITIQUE_REPAIR` | `false` | Post-selection critique/repair |
+| `CLAUDE_MODEL_ID` | `claude-sonnet-5` | Generator model |
+| `ANTHROPIC_API_KEY` | baked at build | Required in the graded image |
+
+---
+
+## Quick start
 
 ```bash
+cp .env.example .env   # set ANTHROPIC_API_KEY (and optional CLAUDE_MODEL_ID)
 pip install -r requirements.txt
+
 export INPUT_PATH="$(pwd)/sample_input/tasks.json"
 export OUTPUT_PATH="$(pwd)/sample_output/results.json"
 python3 main.py
-cat sample_output/results.json
 ```
 
-`.env` is loaded automatically by `config.py`, so no need to `export` the API key manually.
+Sample task URLs use `clip://<object>.mp4` so sponsor bucket names are not
+hard-coded in JSON; `download_video` expands them.
 
-To also get a long, detailed factual description per clip (not part of grading, just for
-your own inspection):
+### Docker (graded shape)
 
 ```bash
-export DESCRIBE_OUTPUT_PATH="$(pwd)/sample_output/descriptions.json"
-python3 describe_videos.py
+# Build for the harness CPU (x86_64)
+docker buildx build --platform linux/amd64 \
+  --build-arg ANTHROPIC_API_KEY="$(grep '^ANTHROPIC_API_KEY=' .env | cut -d= -f2-)" \
+  --build-arg DESCRIBE_BACKEND=claude \
+  --build-arg FRAME_SAMPLE_MODE=uniform \
+  --build-arg CAPTION_MODE=formal_grounded \
+  --build-arg ENABLE_CRITIQUE_REPAIR=false \
+  --tag ghcr.io/novicecoderinfinity/silver-octo-guacamole:latest \
+  --push .
+
+# Harness-style verify: no -e
+docker run --rm --platform linux/amd64 \
+  -v "$(pwd)/sample_input:/input:ro" \
+  -v "$(pwd)/sample_output:/output" \
+  ghcr.io/novicecoderinfinity/silver-octo-guacamole:latest
 ```
 
-To score a results.json with the LLM judge (not part of grading, useful for QA before
-submitting):
+### Local judge (dev only)
 
 ```bash
 export RESULTS_PATH="$(pwd)/sample_output/results.json"
 export JUDGE_OUTPUT_PATH="$(pwd)/sample_output/judged_results.json"
-python3 judge.py
-cat sample_output/judged_results.json
-```
-
-By default the judge scores with Fireworks when `JUDGE_PROVIDER=fireworks`. To judge with
-Claude instead, set:
-
-```bash
-export JUDGE_PROVIDER=anthropic
-export ANTHROPIC_API_KEY=sk-ant-...
-export JUDGE_MODEL_ID=claude-sonnet-5
+export JUDGE_PROVIDER=fireworks   # default; keep Claude off the judge seat for A/Bs
 python3 judge.py
 ```
 
-## Build & run in Docker (this is what actually gets graded)
+Novel-arm suite (on experiment branches): `.venv/bin/python -m exp_arms.run_suite`
+
+### Streamlit demo
 
 ```bash
-docker buildx build --platform linux/amd64 --tag video-captioner:latest --load .
-
-docker run --rm \
-  -e ANTHROPIC_API_KEY=sk-ant-... \
-  -v "$(pwd)/sample_input:/input:ro" \
-  -v "$(pwd)/sample_output:/output" \
-  video-captioner:latest
-
-cat sample_output/results.json
+streamlit run app.py
 ```
 
-## Push for submission
+---
 
-The grading harness injects no env vars (Track 2 rules), so the real key must be baked
-into the image at build time via `--build-arg` — a plain `docker run` against the pushed
-image with no `-e` still needs to work:
+## Layout
 
-```bash
-docker buildx build --platform linux/amd64 \
-  --build-arg ANTHROPIC_API_KEY=sk-ant-... \
-  --tag <registry>/<you>/video-captioner:latest --push .
+```
+main.py              graded entry: /input/tasks.json → /output/results.json
+pipeline.py          describe + specialists/selection + formal_grounded
+llm_client.py        Claude (+ Fireworks for judge/dev)
+gemini_client.py     optional full-video describe
+video_utils.py       download, frames, clip:// resolution
+config.py            env defaults
+judge.py             local LLM judge (not graded)
+app.py               Streamlit UI
+exp_arms/            novel-arm experiment harness
+eval_input/          12-clip local eval tasks
+sample_input/        3-clip smoke tasks
+Dockerfile           what gets pushed to GHCR
 ```
 
-The image (including the baked-in key) goes to a registry — if that registry is public,
-rotate the key after grading.
+---
 
-## Streamlit demo
+## What not to do
 
-Locally:
-
-```bash
-pip install -r requirements.txt
-streamlit run app.py        # reads .env automatically
-```
-
-On Streamlit Community Cloud (free, no server needed):
-
-1. Go to https://share.streamlit.io, sign in with GitHub, click **Create app**.
-2. Pick this repo, branch `main`, main file `app.py`.
-3. In the app's **Settings → Secrets**, paste the same variables as `.env`:
-
-   ```toml
-   ANTHROPIC_API_KEY = "sk-ant-..."
-   # optional: CLAUDE_MODEL_ID = "claude-opus-4-8"
-   ```
-
-`packages.txt` makes Streamlit Cloud install ffmpeg; `app.py` copies the secrets into the
-environment so `config.py` works unchanged.
-
-## Notes / tradeoffs
-
-- Frame count adapts to clip length: ~1 frame per 5 seconds, clamped to 8–20, downscaled
-  to 768px wide. At 768px a 16:9 frame costs a few hundred tokens, so even a 20-frame clip
-  is a manageable input-token cost per clip.
-- One vision call to describe the frames + one structured-outputs call to rewrite into the
-  4 styles — not 4 separate calls — and clips run 4-at-a-time, keeping this within the
-  10 minute container limit even for ~12 hidden clips.
-- Do NOT commit `.env` — it's gitignored. The submitted image *does* bake the real key in
-  via `--build-arg` (see "Push for submission" above), since the harness injects no env
-  vars; if the target registry is public, treat the key as exposed and rotate it after
-  grading. For your own local Docker runs, pass the key via `-e` at `docker run` time
-  instead of building it in, so a locally-built dev image never carries a copy.
+- Do not trust Claude-self-judging for ship decisions.
+- Do not stack perception tricks after a board flatline without a new mechanism.
+- Do not commit `.env` or push to the friend’s remote by default.
+- Do not treat local combined ≈ 0.99 as a leaderboard forecast — use **Δ** and
+  then the official score.

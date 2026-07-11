@@ -36,7 +36,7 @@ prior scene-frame ship that did not move the board; recalibrated upside ~+0.005â
 
 ```text
 ghcr.io/novicecoderinfinity/silver-octo-guacamole:single-shot
-digest: REPLACE_AFTER_PUSH
+digest: sha256:2b955e255df0d27d62d40dc575173d9356b5e665a68c82644a915eb84ad404c5
 ```
 
 Also tagged `:latest` only if intentionally promoted after official score.

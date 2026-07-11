@@ -19,18 +19,12 @@ def main() -> int:
         tasks = json.load(f)
 
     client = ClaudeClient(config.ANTHROPIC_API_KEY, config.CLAUDE_MODEL_ID)
-    gemini_client = None
-    if config.DESCRIBE_BACKEND == "gemini" and config.GEMINI_API_KEY:
-        from gemini_client import GeminiVideoClient
-        gemini_client = GeminiVideoClient(config.GEMINI_API_KEY, config.GEMINI_MODEL_ID)
 
     def run_task(task: dict) -> dict:
         task_id = task["task_id"]
         styles = task["styles"]
         try:
-            captions = caption_video(
-                task["video_url"], styles, client, gemini_client=gemini_client,
-            )
+            captions = caption_video(task["video_url"], styles, client)
         except Exception:
             print(f"[{task_id}] FAILED: {traceback.format_exc()}", file=sys.stderr)
             captions = {s: "" for s in styles}

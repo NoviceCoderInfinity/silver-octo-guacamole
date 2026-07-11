@@ -23,5 +23,5 @@ may not match a different-family 0.92 winner.
 ## Image
 ```
 ghcr.io/novicecoderinfinity/silver-octo-guacamole:direct-style
-digest: REPLACE
+digest: sha256:fa4b66cd8c468a0e05622c7c38735becd76ee9d1025d171a6310edb0109a4bce
 ```

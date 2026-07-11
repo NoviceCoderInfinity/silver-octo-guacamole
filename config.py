@@ -8,69 +8,38 @@ import os
 
 from dotenv import load_dotenv
 
-# override=True: a stale ANTHROPIC_API_KEY exported in the shell profile was shadowing
-# .env's valid key (load_dotenv keeps pre-existing env vars by default), causing 401s.
-# The graded Docker image contains no .env file, so `-e`/baked env vars are unaffected.
+# A stale shell value must not shadow the explicitly configured local .env key.
+# Submitted images do not contain .env, so their baked environment is unaffected.
 load_dotenv(override=True)
 
 FIREWORKS_API_KEY = os.environ.get("FIREWORKS_API_KEY", "")
-# Fireworks is kept for judge/dev comparisons; the submitted generator uses Claude.
+# Primary generator for this experiment: Qwen3.7-Plus via Fireworks (Quiptionary-class).
 FIREWORKS_MODEL_ID = os.environ.get("FIREWORKS_MODEL_ID", "accounts/fireworks/models/qwen3p7-plus")
 FIREWORKS_BASE_URL = "https://api.fireworks.ai/inference/v1"
 
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-# Primary submission model. CLAUDE_MODEL_ID is the explicit generator setting; the
-# default is Sonnet: the Opus trial scored 0.80 on the hidden leaderboard vs
-# Sonnet's 0.83, so Sonnet is the reverted-to champion.
 CLAUDE_MODEL_ID = (
     os.environ.get("CLAUDE_MODEL_ID")
     or os.environ.get("ANTHROPIC_MODEL_ID")
     or "claude-sonnet-5"
 )
 
-# judge.py is a standalone dev tool (not part of the graded pipeline) that scores
-# generated captions. JUDGE_PROVIDER picks its backend: "fireworks" (default, reuses
-# FIREWORKS_API_KEY) or "anthropic" (uses ANTHROPIC_API_KEY). JUDGE_MODEL_ID is that
-# backend's model.
 JUDGE_PROVIDER = os.environ.get("JUDGE_PROVIDER", "fireworks")
 JUDGE_MODEL_ID = os.environ.get(
     "JUDGE_MODEL_ID",
     "claude-sonnet-5" if JUDGE_PROVIDER == "anthropic" else FIREWORKS_MODEL_ID,
 )
 
-# Frame sampling: ~1 frame per SECONDS_PER_FRAME of video, clamped to
-# [MIN_FRAMES, MAX_FRAMES]. Clips in the hidden set are 30s-2min, so this yields
-# 8 frames for a 30s clip up to 20 frames for a 100s+ clip.
-SECONDS_PER_FRAME = 5.0
-MIN_FRAMES = 8
-MAX_FRAMES = 20
-# 1024px (up from 768) so small details judges nitpick on — nail colour, sign text,
-# chair colour — survive the downscale; ~1.8x the vision tokens, still well inside
-# budget at 20 frames.
-FRAME_MAX_WIDTH = 1024
+# Quiptionary-parity sampling: exactly 4 frames at 1024px (not 8–20 @ 768).
+SECONDS_PER_FRAME = float(os.environ.get("SECONDS_PER_FRAME", "5.0"))
+MIN_FRAMES = int(os.environ.get("MIN_FRAMES", "4"))
+MAX_FRAMES = int(os.environ.get("MAX_FRAMES", "4"))
+FRAME_MAX_WIDTH = int(os.environ.get("FRAME_MAX_WIDTH", "1024"))
 
-# Post-selection critique+repair: after the specialist+selection stage picks a winner per
-# style, critique each winner against the source frames (shares judge.py's accuracy/tone_fit
-# rubric via pipeline.build_critique_prompt/build_critique_schema) and rewrite, once, any
-# style scoring below CRITIQUE_THRESHOLD on either axis. Adds up to 2 extra Claude calls per
-# clip. Falls back to the pre-critique captions on any failure — see pipeline.caption_video.
-# Track 2 injects no env vars at `docker run` time, so this default governs the graded run;
-# override at image build time via `--build-arg ENABLE_CRITIQUE_REPAIR=false` (see Dockerfile).
-ENABLE_CRITIQUE_REPAIR = os.environ.get("ENABLE_CRITIQUE_REPAIR", "true").strip().lower() not in ("false", "0", "no", "")
-# 5 (was 4): captions scoring exactly 4 were where nearly all leaderboard points leaked,
-# and repair is now verify-before-accept (a rewrite is re-critiqued and only kept if it
-# scores at least as well), so repairing 4s can no longer make a caption worse.
-CRITIQUE_THRESHOLD = int(os.environ.get("CRITIQUE_THRESHOLD", "5"))
+# Caption assembly:
+#   portfolio_select | single_shot | direct | qwen_direct
+# qwen_direct = one Fireworks Qwen vision call per style, XML-tagged caption, no describe/selector.
+CAPTION_ASSEMBLY = os.environ.get("CAPTION_ASSEMBLY", "qwen_direct").strip().lower()
 
-# Gemini: optional video-native describe front-end. Style writing stays on Claude.
-# DESCRIBE_BACKEND=gemini|claude (default claude = Arush-compatible frame describe).
-# Borrowed/employer credit — keep usage minimal; prefer flash-tier models.
-GEMINI_API_KEY = (os.environ.get("GEMINI_API_KEY", "") or "").strip().strip("'\"")
-GEMINI_MODEL_ID = os.environ.get("GEMINI_MODEL_ID", "gemini-3-flash-preview")
-DESCRIBE_BACKEND = os.environ.get("DESCRIBE_BACKEND", "claude").strip().lower()
-# Frame sampling mode for the graded pipeline: "uniform" (Arush) or "scene"
-# (scene-change + uniform mix; best novel arm on the 12-clip Fireworks suite).
-FRAME_SAMPLE_MODE = os.environ.get("FRAME_SAMPLE_MODE", "uniform").strip().lower()
-# Caption strategy: "default" (all styles in parallel) or "formal_grounded"
-# (formal first, then other styles locked to formal's entities — best v2 arm).
-CAPTION_MODE = os.environ.get("CAPTION_MODE", "formal_grounded").strip().lower()
+# Quiptionary uses temperature 0.7 on the styled vision call.
+QWEN_DIRECT_TEMPERATURE = float(os.environ.get("QWEN_DIRECT_TEMPERATURE", "0.7"))

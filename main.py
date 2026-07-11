@@ -6,7 +6,7 @@ import traceback
 from concurrent.futures import ThreadPoolExecutor
 
 import config
-from llm_client import ClaudeClient
+from llm_client import ClaudeClient, FireworksClient
 from pipeline import caption_video
 
 INPUT_PATH = os.environ.get("INPUT_PATH", "/input/tasks.json")
@@ -14,23 +14,32 @@ OUTPUT_PATH = os.environ.get("OUTPUT_PATH", "/output/results.json")
 MAX_WORKERS = int(os.environ.get("MAX_WORKERS", "4"))
 
 
+def _build_client():
+    assembly = (config.CAPTION_ASSEMBLY or "").strip().lower()
+    if assembly == "qwen_direct":
+        if not config.FIREWORKS_API_KEY:
+            raise RuntimeError("FIREWORKS_API_KEY required for CAPTION_ASSEMBLY=qwen_direct")
+        return FireworksClient(
+            config.FIREWORKS_API_KEY,
+            config.FIREWORKS_MODEL_ID,
+            config.FIREWORKS_BASE_URL,
+        )
+    if not config.ANTHROPIC_API_KEY:
+        raise RuntimeError("ANTHROPIC_API_KEY required for Claude caption assemblies")
+    return ClaudeClient(config.ANTHROPIC_API_KEY, config.CLAUDE_MODEL_ID)
+
+
 def main() -> int:
     with open(INPUT_PATH, "r") as f:
         tasks = json.load(f)
 
-    client = ClaudeClient(config.ANTHROPIC_API_KEY, config.CLAUDE_MODEL_ID)
-    gemini_client = None
-    if config.DESCRIBE_BACKEND == "gemini" and config.GEMINI_API_KEY:
-        from gemini_client import GeminiVideoClient
-        gemini_client = GeminiVideoClient(config.GEMINI_API_KEY, config.GEMINI_MODEL_ID)
+    client = _build_client()
 
     def run_task(task: dict) -> dict:
         task_id = task["task_id"]
         styles = task["styles"]
         try:
-            captions = caption_video(
-                task["video_url"], styles, client, gemini_client=gemini_client,
-            )
+            captions = caption_video(task["video_url"], styles, client)
         except Exception:
             print(f"[{task_id}] FAILED: {traceback.format_exc()}", file=sys.stderr)
             captions = {s: "" for s in styles}

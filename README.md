@@ -26,6 +26,30 @@ If you are new here: optimize for **hidden-board movement**, not local Fireworks
 absolute scores. Prefer **Δ vs Arush** on the 12-clip suite, then resubmit and
 check the official board.
 
+### Handoff for collaborators (e.g. Arush)
+
+1. **Clone this repo, not the friend fork, for graded work:**
+   `git clone git@github.com:NoviceCoderInfinity/silver-octo-guacamole.git`
+2. **Start on `main`** (or `submit/formal-grounded` — same ship family). Read this
+   README end-to-end before changing prompts or Docker defaults.
+3. **Copy `.env.example` → `.env`** and set `ANTHROPIC_API_KEY` (optional:
+   `FIREWORKS_API_KEY` for local judging, `GEMINI_API_KEY` only if testing
+   `DESCRIBE_BACKEND=gemini`).
+4. **Smoke test:** `INPUT_PATH=…/sample_input/tasks.json` → `python3 main.py`.
+   Sample URLs are `clip://…`; resolution happens in `video_utils.resolve_video_url`.
+5. **Before shipping a new idea:** run against `eval_input/tasks_gcs12.json` with a
+   **Fireworks** judge, report **Δ vs the Arush lean baseline**, then build/push
+   GHCR (`:latest`) with the same defaults as `Dockerfile`, verify with **no** `-e`,
+   then resubmit and watch the **official** score (local Δ alone is not enough —
+   `scene_frames` taught that).
+6. **Push only to** `NoviceCoderInfinity/silver-octo-guacamole`. Do not push graded
+   experiments to `Arush777/himawari-fanboys` unless explicitly asked. Keep the
+   Arush lean 0.87 tree as a **read-only baseline** for A/Bs (`ab_vs_arush.py` /
+   `exp_arms`).
+7. **Next bets if `formal_grounded` flatlines on the board:** try `anchor_facts` or
+   `motion_budget` (+0.021 local), or change perception substrate (native video /
+   audio) — do not stack more frame-sampling tricks.
+
 ---
 
 ## How ranking works

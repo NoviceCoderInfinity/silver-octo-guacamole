@@ -11,5 +11,5 @@ Official ≥0.90 promote; 0.88–0.89 ambiguous; ≤0.87 fail.
 ## Image
 ```
 ghcr.io/novicecoderinfinity/silver-octo-guacamole:frames-6
-digest: REPLACE
+digest: sha256:9b53c591bba5d7594b699a06a641b73bd8877b5c7becd5dd147c7db46cc37653
 ```

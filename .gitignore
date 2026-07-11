@@ -3,3 +3,8 @@ __pycache__/
 *.pyc
 .venv/
 .cache/
+.scratch/
+*.pdf
+29_*.md
+30_*.md
+judge-test/

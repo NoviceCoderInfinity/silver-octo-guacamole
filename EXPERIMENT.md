@@ -19,5 +19,6 @@ tags mention Gemini but graded code is Fireworks. **Native video is an open lane
 ## Image
 ```
 ghcr.io/novicecoderinfinity/silver-octo-guacamole:gemini-video
-digest: (pending push)
+digest: sha256:79a9679c015ed9933f4bb725d4094e1a64c05be47db213ac3edcfd7771951e1a
+harness: 3/3 sample clips OK (no -e)
 ```

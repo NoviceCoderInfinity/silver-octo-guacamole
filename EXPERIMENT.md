@@ -26,7 +26,7 @@ prompt sharpness before abandoning the recipe.
 ## Image
 ```
 ghcr.io/novicecoderinfinity/silver-octo-guacamole:qwen-direct-v2
-digest: (pending push)
+digest: sha256:6a20678f10fbddbeb29d27aaafa87d24ed1e7898960eb41ab721b63f29910ba0
 ```
 
 Do **not** resubmit `:qwen-direct` (plagiarized prompts). Prefer `:qwen-direct-v2`.

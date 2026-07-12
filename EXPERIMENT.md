@@ -26,5 +26,5 @@ logs, look elsewhere (wrong tag submitted, key auth, etc.).
 ## Image
 ```
 ghcr.io/novicecoderinfinity/silver-octo-guacamole:qwen-direct-v3-serial
-digest: (pending push)
+digest: sha256:68e27ab4d57ccad764eb5ad3e186e09261ce15e5ec44de192be165b8d5ed2b49
 ```

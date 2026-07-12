@@ -41,7 +41,7 @@ JUDGE_MODEL_ID = os.environ.get(
 # and 4GB RAM (8–20 frames × multimodal × parallel styles was too slow).
 SECONDS_PER_FRAME = float(os.environ.get("SECONDS_PER_FRAME", "8.0"))
 MIN_FRAMES = int(os.environ.get("MIN_FRAMES", "4"))
-MAX_FRAMES = int(os.environ.get("MAX_FRAMES", "6"))
+MAX_FRAMES = int(os.environ.get("MAX_FRAMES", "4"))
 FRAME_MAX_WIDTH = int(os.environ.get("FRAME_MAX_WIDTH", "640"))
 
 # Caption assembly (single independent variable for the SVG→next experiment):

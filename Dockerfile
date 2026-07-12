@@ -13,8 +13,13 @@ COPY config.py video_utils.py llm_client.py pipeline.py main.py ./
 # the image. The key is supplied at build time (--build-arg), never committed to git.
 ARG ANTHROPIC_API_KEY=""
 ENV ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
-# Serial by default: low-tier Anthropic orgs are often ~5 RPM; parallel empties captions.
-ENV MAX_WORKERS="1"
+# Graded wall-clock is tight (~10 min). Serial workers=1 timed out on the board.
+# Parallel clips + parallel styles (pipeline) match the original 0.90 recipe.
+ENV MAX_WORKERS="4"
+ENV SECONDS_PER_FRAME="8.0"
+ENV MIN_FRAMES="4"
+ENV MAX_FRAMES="6"
+ENV FRAME_MAX_WIDTH="640"
 # Experiment IV vs SVG 0.88: single multimodal caption per style, no selector.
 ARG CAPTION_ASSEMBLY="single_shot"
 ENV CAPTION_ASSEMBLY=${CAPTION_ASSEMBLY}

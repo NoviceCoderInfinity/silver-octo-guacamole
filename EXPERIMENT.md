@@ -1,30 +1,24 @@
-# Experiment: single-shot rekey (0.90 recipe + working Anthropic key)
+# Experiment: single-shot timeout fix
 
 Branch: `experiments/single-shot-rekey`
 
-## Goal
-Restore the official **0.90** `:single-shot` path after the previous baked
-Anthropic key ran out of credits.
+## What went wrong
+`:single-shot` resubmit with the fresh key returned **TIMEOUT**.
 
-## Same as 0.90
-- Claude Sonnet describe → one caption/style (no selector)
-- Same prompts/personas as `experiments/single-shot-no-selector`
+Root cause: the rekey image set `MAX_WORKERS=1` and ran the 4 style
+specialists **sequentially** (RPM paranoia). Local timing was ~40–45s/clip,
+so a full hidden set cannot finish in the graded wall-clock.
 
-## Reliability changes
-Keep serial to avoid 429→empty captions on the board:
-- `MAX_WORKERS=1`
-- sequential styles
-- Claude 429/5xx retries with backoff
+The original 0.90 recipe used `MAX_WORKERS=6` + parallel styles.
 
-New key (1-day expiry) smoke: `claude-sonnet-5` OK; 6 rapid text calls OK;
-local 1-clip single-shot OK; harness 2/2 sample clips OK (no `-e`).
+## Fix (keep single-shot; finish in time)
+- Restore **parallel styles** (ThreadPoolExecutor over the 4 styles)
+- `MAX_WORKERS=4` (clip-level parallelism; 2 vCPU graded box)
+- Cap frames: **4–6** @ width 640 (was 8–20 @ 768) — same describe→one-caption path
+- Faster 429 retries (2s → max 12s, 5 attempts) so backoff cannot eat the budget
 
 ## Image
 ```
 ghcr.io/novicecoderinfinity/silver-octo-guacamole:single-shot
-digest: sha256:22677460f6a49156d1188ce662ff90d820de0826e99a52dcf60929e8899fcf98
-harness: 2/2 sample clips OK (no -e)
-also: :single-shot-rekey (same digest)
+digest: (pending push)
 ```
-
-Overwrites previous `:single-shot` digest (old baked key was dead / low-credit).

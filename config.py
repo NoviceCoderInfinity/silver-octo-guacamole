@@ -37,13 +37,12 @@ JUDGE_MODEL_ID = os.environ.get(
     "claude-sonnet-5" if JUDGE_PROVIDER == "anthropic" else FIREWORKS_MODEL_ID,
 )
 
-# Frame sampling: ~1 frame per SECONDS_PER_FRAME of video, clamped to
-# [MIN_FRAMES, MAX_FRAMES]. Clips in the hidden set are 30s-2min, so this yields
-# 8 frames for a 30s clip up to 20 frames for a 100s+ clip.
-SECONDS_PER_FRAME = 5.0
-MIN_FRAMES = 8
-MAX_FRAMES = 20
-FRAME_MAX_WIDTH = 768
+# Frame sampling: keep enough visual context, but cap hard for graded wall-clock
+# and 4GB RAM (8–20 frames × multimodal × parallel styles was too slow).
+SECONDS_PER_FRAME = float(os.environ.get("SECONDS_PER_FRAME", "8.0"))
+MIN_FRAMES = int(os.environ.get("MIN_FRAMES", "4"))
+MAX_FRAMES = int(os.environ.get("MAX_FRAMES", "6"))
+FRAME_MAX_WIDTH = int(os.environ.get("FRAME_MAX_WIDTH", "640"))
 
 # Caption assembly (single independent variable for the SVG→next experiment):
 #   portfolio_select — SVG 0.88: best-of-2 specialists + frame-grounded selector

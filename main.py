@@ -11,7 +11,7 @@ from pipeline import caption_video
 
 INPUT_PATH = os.environ.get("INPUT_PATH", "/input/tasks.json")
 OUTPUT_PATH = os.environ.get("OUTPUT_PATH", "/output/results.json")
-MAX_WORKERS = int(os.environ.get("MAX_WORKERS", "1"))
+MAX_WORKERS = int(os.environ.get("MAX_WORKERS", "4"))
 
 
 def main() -> int:

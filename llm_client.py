@@ -76,9 +76,12 @@ def _text_of(response) -> str:
     return "".join(block.text for block in response.content if block.type == "text").strip()
 
 
-def _claude_with_retries(call, *, label: str, attempts: int = 8):
-    """Retry Claude calls on rate limits. Low-tier orgs are often ~5 RPM."""
-    delay = 12.0
+def _claude_with_retries(call, *, label: str, attempts: int = 5):
+    """Retry Claude on rate limits / transient 5xx without burning the graded timeout.
+
+    Long 12–30s backoffs under workers=1 were a TIMEOUT risk on the full hidden set.
+    """
+    delay = 2.0
     last_exc = None
     for i in range(attempts):
         try:
@@ -91,14 +94,14 @@ def _claude_with_retries(call, *, label: str, attempts: int = 8):
             last_exc = e
         if i == attempts - 1:
             break
-        sleep_for = delay + random.uniform(0, 1.0)
+        sleep_for = delay + random.uniform(0, 0.5)
         print(
             f"[llm] {label} retry {i + 1}/{attempts - 1} after {sleep_for:.1f}s "
             f"({type(last_exc).__name__})",
             file=sys.stderr,
         )
         time.sleep(sleep_for)
-        delay = min(delay * 1.3, 30.0)
+        delay = min(delay * 1.6, 12.0)
     raise last_exc
 
 

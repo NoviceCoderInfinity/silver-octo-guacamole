@@ -7,20 +7,14 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY config.py video_utils.py llm_client.py pipeline.py main.py ./
+COPY config.py video_utils.py llm_client.py pipeline.py gemini_caption.py main.py ./
 
-# Track 2 rules: no env vars are injected by the harness — credentials ship inside
-# the image. The key is supplied at build time (--build-arg), never committed to git.
-ARG FIREWORKS_API_KEY=""
-ENV FIREWORKS_API_KEY=${FIREWORKS_API_KEY}
-ENV FIREWORKS_MODEL_ID="accounts/fireworks/models/qwen3p7-plus"
-ENV MAX_WORKERS="6"
-# Quiptionary-parity profile: Qwen direct vision, 4 frames @ 1024, XML captions.
-ARG CAPTION_ASSEMBLY="qwen_direct"
-ENV CAPTION_ASSEMBLY=${CAPTION_ASSEMBLY}
-ENV MIN_FRAMES="4"
-ENV MAX_FRAMES="4"
-ENV FRAME_MAX_WIDTH="1024"
-ENV QWEN_DIRECT_TEMPERATURE="0.7"
+# Track 2: credentials baked at build time.
+ARG GEMINI_API_KEY=""
+ENV GEMINI_API_KEY=${GEMINI_API_KEY}
+ENV GEMINI_MODEL_ID="gemini-3.5-flash"
+ENV CAPTION_ASSEMBLY="gemini_direct"
+ENV MAX_WORKERS="2"
+ENV GEMINI_TEMPERATURE="0.55"
 
 CMD ["python", "main.py"]

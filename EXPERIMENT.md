@@ -21,7 +21,7 @@ This build uses:
 ## Image
 ```
 ghcr.io/novicecoderinfinity/silver-octo-guacamole:single-shot
-digest: (pending push)
+digest: sha256:510ff00cce884bf22fa6c97ecc252c83de9d1c760bb179d1028e574df48b1db8
 ```
 
 Also tagged conceptually as the rekeyed 0.90 scorer. Overwrites previous

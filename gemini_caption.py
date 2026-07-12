@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 import os
 import random
+import re
 import sys
 import tempfile
 import time
@@ -138,23 +139,19 @@ class GeminiVideoCaptioner:
                 "from the others (do not paraphrase the same sentence four ways).\n\n"
                 f"Styles:\n{style_lines}\n\n"
                 "Return ONLY a JSON object whose keys are exactly the style names above and "
-                "whose values are the caption strings."
+                "whose values are the caption strings. Escape any internal double-quotes in "
+                "captions properly for JSON. Prefer captions without nested quotation marks."
             )
 
             raw = self._generate(video_part, prompt, max_tokens=4096, temperature=0.55, json_mode=True)
-            try:
-                data = json.loads(raw)
-            except json.JSONDecodeError:
-                # strip fences if any
-                start = raw.find("{"); end = raw.rfind("}")
-                if start >= 0 and end > start:
-                    data = json.loads(raw[start : end + 1])
-                else:
-                    raise
+            data = _parse_style_json(raw, wanted)
+            if not data:
+                print(f"[gemini] JSON parse failed; falling back to per-style. raw[:200]={raw[:200]!r}",
+                      file=sys.stderr)
 
             result = {s: str(data.get(s, "")).strip() for s in wanted}
 
-            # Retry only missing styles with a focused single-style call
+            # Retry missing / unparsed styles with a focused single-style call
             missing = [s for s in wanted if not result.get(s)]
             for s in missing:
                 try:
@@ -176,3 +173,36 @@ class GeminiVideoCaptioner:
                           f"{traceback.format_exc()}", file=sys.stderr)
 
         return {s: result.get(s, "") for s in styles}
+
+
+def _parse_style_json(raw: str, wanted: list[str]) -> dict:
+    """Best-effort parse of Gemini JSON; tolerate fences and minor quote damage."""
+    if not raw:
+        return {}
+    candidates = [raw.strip()]
+    start, end = raw.find("{"), raw.rfind("}")
+    if start >= 0 and end > start:
+        candidates.append(raw[start : end + 1])
+
+    for chunk in candidates:
+        try:
+            data = json.loads(chunk)
+            if isinstance(data, dict):
+                return data
+        except json.JSONDecodeError:
+            continue
+
+    # Last resort: pull "style": "..." fields even if the whole object is invalid JSON
+    out: dict[str, str] = {}
+    for s in wanted:
+        m = re.search(
+            rf'"{re.escape(s)}"\s*:\s*"((?:\\.|[^"\\])*)"',
+            raw,
+            flags=re.DOTALL,
+        )
+        if m:
+            try:
+                out[s] = json.loads(f'"{m.group(1)}"')
+            except json.JSONDecodeError:
+                out[s] = m.group(1)
+    return out

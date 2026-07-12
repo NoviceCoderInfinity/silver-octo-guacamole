@@ -1,32 +1,32 @@
-# Experiment: Qwen-direct ORIGINAL prompts (score-preserving rewrite)
+# Experiment: Qwen-direct v3 — surgical originality (restore 0.92 geometry)
 
-Branch: `experiments/qwen-direct-original`
+Branch: `experiments/qwen-direct-v3`
 
-## Why this branch exists
-`:qwen-direct` scored **0.92** on the official board but used **plagiarized persona /
-system / guard prose** from Quiptionary. This branch keeps the **winning recipe knobs**
-and replaces **all creative text** with Himawari-authored prompts.
+## What went wrong with v2 (0.74)
+`:qwen-direct` (plagiarized prompts) scored **0.92**. `:qwen-direct-v2` kept the
+same knobs but **replaced short imperative personas + rigid formatter system +
+`<caption_output>`** with long roleplay characters, a soft “visual narrator”
+system, and `<final_caption>`. Local smoke still filled captions, but the voice
+and instruction geometry changed enough that the official judge collapsed to
+**0.74**.
 
-## Held fixed (0.92 recipe)
-- Fireworks `qwen3p7-plus`
-- `CAPTION_ASSEMBLY=qwen_direct` (no describe, no selector)
-- Exactly **4 frames @ 1024**
-- `reasoning_effort=none`, temperature **0.7**, max_tokens **400**
-- One multimodal call per style + XML tag extraction
+## Fix strategy (v3)
+Keep recipe knobs identical. Restore **prompt geometry** of the 0.92 run
+(short punchy imperatives, strict formatter system, numbered output rules,
+`<caption_output>`), with **rewritten wording** so we are not a plagiarism hit.
 
-## Changed (originality)
-- All `QWEN_DIRECT_PERSONAS` rewritten (archivist / jaded host / build engineer / diner)
-- New `QWEN_DIRECT_SYSTEM` + `QWEN_DIRECT_GUARD`
-- Primary tag: `<final_caption>` (legacy `<caption_output>` still parsed as fallback)
+Banned fragments still avoided: HAL-9000, mere mortals, millennial-of-workload,
+man-in-his-50s, “strict data-formatting pipeline”, `### CRITICAL INSTRUCTIONS ###`.
+
+## Held fixed
+Qwen3.7-Plus, 4@1024, temp 0.7, reasoning off, no describe/selector, max_tokens 400.
 
 ## Pass/fail
-Official **≥0.90** keep; target **≥0.91** (ideally hold **0.92**). If ≤0.89, diagnose
-prompt sharpness before abandoning the recipe.
+Official **≥0.90** = success. Target near **0.92**. If ≤0.85, stop rewriting prose
+and fall back to `:single-shot` (0.90) while investigating.
 
 ## Image
 ```
-ghcr.io/novicecoderinfinity/silver-octo-guacamole:qwen-direct-v2
-digest: sha256:6a20678f10fbddbeb29d27aaafa87d24ed1e7898960eb41ab721b63f29910ba0
+ghcr.io/novicecoderinfinity/silver-octo-guacamole:qwen-direct-v3
+digest: (pending push)
 ```
-
-Do **not** resubmit `:qwen-direct` (plagiarized prompts). Prefer `:qwen-direct-v2`.

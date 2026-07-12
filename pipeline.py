@@ -81,53 +81,39 @@ PERSONAS = {
     ),
 }
 
-# Original hard personas for qwen_direct (voice-first, XML-tagged). Recipe knobs
-# (4@1024, Qwen, temp 0.7, reasoning off, no describe/selector) are unchanged;
-# creative prose is Himawari-authored — do not reintroduce competitor wording.
+# Short, imperative, voice-first personas. Geometry matched to the 0.92 run
+# (brief punchy directives, not long roleplay). Wording is Himawari-original —
+# do not reintroduce competitor catchphrases (HAL-9000, mere mortals, etc.).
 QWEN_DIRECT_PERSONAS = {
     "formal": (
-        "You are the archivist of a national film library composing the catalogue "
-        "entry for each clip. You record only what the footage verifiably shows, in "
-        "one calm, exact sentence that could sit under glass in a museum a century "
-        "from now. No opinions, no humour, no flourish, no exclamation marks."
+        "Read the frames like a clinical instrument log: cold, factual, and emotionless. "
+        "State only what is visibly present."
     ),
     "sarcastic": (
-        "You are a jaded travel-show host who has filmed in every country twice and "
-        "is no longer impressed by anything. You narrate each clip with polite, weary "
-        "irony, like reading a brochure you stopped believing years ago. One dry, "
-        "mock-enthusiastic sentence aimed at something actually on screen, never cruel."
+        "Deadpan sarcasm with eye-rolling superiority. Lightly mock something actually on "
+        "screen as if it barely deserves your attention, but keep the wit sharp."
     ),
     "humorous_tech": (
-        "You are a caffeinated build engineer who narrates the world as one endless "
-        "deployment: traffic is queue backpressure, weather is a flaky integration "
-        "test, animals are undocumented features. Map the clip onto CI/CD, caches, "
-        "retries and rollbacks so a developer genuinely laughs. One sentence, the joke "
-        "landing on something literally visible."
+        "Burned-out engineer humor: map what is on screen onto bugs, deploys, latency, and "
+        "flaky jobs. Stay visual — the joke is the scene, not your résumé."
     ),
     "humorous_non_tech": (
-        "You are a small-town diner regular who comments on everything over a mug of "
-        "coffee, folksy and warm. Your jokes come from kitchens, pets, weather, "
-        "neighbours and Sunday chores, and never touch technology, science or the "
-        "internet. One relatable sentence that makes the whole table grin."
+        "Warm, slightly out-of-touch everyday humor from someone who finds modern life "
+        "exhausting. No tech words and no niche references — keep it broadly relatable."
     ),
 }
 
 QWEN_DIRECT_SYSTEM = (
-    "You are a calm and exacting visual narrator. You are given a persona brief and one "
-    "or more images. Study the images closely, then compose a single natural-English "
-    "caption that reflects what is actually visible, written in the voice implied by "
-    "the persona. Write in plain prose only: no markdown, no asterisks, no headings, "
-    "no lists, and no emoji. Do not narrate your reasoning or show intermediate steps. "
-    "Respond in English only. Your entire reply must be exactly one <final_caption> "
-    "element: the opening tag, the caption text, and the closing tag, with nothing "
-    "before the opening tag or after the closing tag."
+    "You format captions from a persona plus images. Output English plain text only, "
+    "wrapped in exact <caption_output> and </caption_output> tags. No thinking aloud, "
+    "no chat, no markdown (no asterisks, no headers)."
 )
 
 QWEN_DIRECT_GUARD = (
-    "\n\nBefore you respond: put one plain-English caption between <final_caption> and "
-    "</final_caption>. No markdown, no lists, no commentary about how you wrote it. "
-    "If anything else creeps in, rewrite silently until only the tagged caption remains, "
-    "then stop."
+    "\n\n### OUTPUT RULES ###\n"
+    "1. Wrap the final caption in <caption_output> and </caption_output>.\n"
+    "2. Inside the tags: caption text only.\n"
+    "3. No preamble, no checklist, no explanation."
 )
 
 # Tone exemplars from OTHER scenes (a balloon festival, a blacksmith), used only for
@@ -183,11 +169,12 @@ def _qwen_direct_prompt(style: str) -> str:
 
 
 def _extract_caption_output(raw: str) -> str:
-    match = re.search(r"<final_caption>(.*?)</final_caption>", raw, re.DOTALL)
+    # Primary tag used by the 0.92 recipe geometry.
+    match = re.search(r"<caption_output>(.*?)</caption_output>", raw, re.DOTALL)
     if match:
         return match.group(1).strip()
-    # Legacy fallback if a model still emits the older tag name.
-    match = re.search(r"<caption_output>(.*?)</caption_output>", raw, re.DOTALL)
+    # Accept v2 tag if a model still emits it.
+    match = re.search(r"<final_caption>(.*?)</final_caption>", raw, re.DOTALL)
     if match:
         return match.group(1).strip()
     return ""

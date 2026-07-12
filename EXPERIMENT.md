@@ -1,29 +1,32 @@
-# Experiment: Qwen-direct Quiptionary parity
+# Experiment: Qwen-direct ORIGINAL prompts (score-preserving rewrite)
 
-Branch: `experiments/qwen-direct-quiptionary`
+Branch: `experiments/qwen-direct-original`
 
-## IV (productized recipe)
-`CAPTION_ASSEMBLY=qwen_direct`: Fireworks **Qwen3.7-Plus**, **4 frames @ 1024**,
-one multimodal call per style, hard personas + `<caption_output>` tags,
-`reasoning_effort=none`, temperature **0.7**. No describe, no selector, no Claude.
+## Why this branch exists
+`:qwen-direct` scored **0.92** on the official board but used **plagiarized persona /
+system / guard prose** from Quiptionary. This branch keeps the **winning recipe knobs**
+and replaces **all creative text** with Himawari-authored prompts.
 
-This is intentionally a multi-knob parity package matching the verified **0.91**
-Quiptionary stack (code + GHCR image), not a single Claude-path micro-IV.
+## Held fixed (0.92 recipe)
+- Fireworks `qwen3p7-plus`
+- `CAPTION_ASSEMBLY=qwen_direct` (no describe, no selector)
+- Exactly **4 frames @ 1024**
+- `reasoning_effort=none`, temperature **0.7**, max_tokens **400**
+- One multimodal call per style + XML tag extraction
 
-## Why (manager override)
-Opus rejected a Qwen swap citing local Fireworks non-transfer. Override: Quiptionary
-scored **0.91 on the official board** with this recipe — board evidence beats local Δ.
-Our Claude ceiling so far is **0.88** (SVG).
+## Changed (originality)
+- All `QWEN_DIRECT_PERSONAS` rewritten (archivist / jaded host / build engineer / diner)
+- New `QWEN_DIRECT_SYSTEM` + `QWEN_DIRECT_GUARD`
+- Primary tag: `<final_caption>` (legacy `<caption_output>` still parsed as fallback)
 
 ## Pass/fail
-Official **≥0.90** = promote candidate. ≤0.87 fail. Do not overwrite `:latest` until confirmed.
-
-## Expected band (manager prior)
-**0.88–0.92**, mode ~**0.90–0.91** if parity holds; lower if Fireworks key/model drift or
-tag extraction fails on the hidden set.
+Official **≥0.90** keep; target **≥0.91** (ideally hold **0.92**). If ≤0.89, diagnose
+prompt sharpness before abandoning the recipe.
 
 ## Image
 ```
-ghcr.io/novicecoderinfinity/silver-octo-guacamole:qwen-direct
-digest: sha256:2250f33798e7171d3c40bcfb962c534f8683acf3de296dab7ab8ab36fa601c6a
+ghcr.io/novicecoderinfinity/silver-octo-guacamole:qwen-direct-v2
+digest: (pending push)
 ```
+
+Do **not** resubmit `:qwen-direct` (plagiarized prompts). Prefer `:qwen-direct-v2`.

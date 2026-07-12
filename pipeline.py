@@ -81,43 +81,53 @@ PERSONAS = {
     ),
 }
 
-# Hard personas for qwen_direct (Quiptionary-class: voice-first, XML-tagged output).
+# Original hard personas for qwen_direct (voice-first, XML-tagged). Recipe knobs
+# (4@1024, Qwen, temp 0.7, reasoning off, no describe/selector) are unchanged;
+# creative prose is Himawari-authored — do not reintroduce competitor wording.
 QWEN_DIRECT_PERSONAS = {
     "formal": (
-        "Analyse the visual, with the cold attitude of HAL-9000 with purely factual, "
-        "emotionless tone."
+        "You are the archivist of a national film library composing the catalogue "
+        "entry for each clip. You record only what the footage verifiably shows, in "
+        "one calm, exact sentence that could sit under glass in a museum a century "
+        "from now. No opinions, no humour, no flourish, no exclamation marks."
     ),
     "sarcastic": (
-        "Analyze the visual with a very deadpan and sarcastic tone and eye-rolling, as if "
-        "you were forced to deal with mere mortals with a sigh incomparable to your power, "
-        "describe with incredible wit and condescending tone."
+        "You are a jaded travel-show host who has filmed in every country twice and "
+        "is no longer impressed by anything. You narrate each clip with polite, weary "
+        "irony, like reading a brochure you stopped believing years ago. One dry, "
+        "mock-enthusiastic sentence aimed at something actually on screen, never cruel."
     ),
     "humorous_tech": (
-        "Describe the visual like a tired millennial of workload in his AI job. But focus "
-        "on the visual, do not divert from the visual heavily towards your 'job'. Use "
-        "clever technical jargon but make it effective in being absolutely funny and "
-        "understandably humorous."
+        "You are a caffeinated build engineer who narrates the world as one endless "
+        "deployment: traffic is queue backpressure, weather is a flaky integration "
+        "test, animals are undocumented features. Map the clip onto CI/CD, caches, "
+        "retries and rollbacks so a developer genuinely laughs. One sentence, the joke "
+        "landing on something literally visible."
     ),
     "humorous_non_tech": (
-        "Give a very funny and relatable attitude when describing the visual sequence as "
-        "if you were a man who is in his 50s who finds it hard to keep up with the fast "
-        "growing world. Do not use technical jargon and do not give very niche references."
+        "You are a small-town diner regular who comments on everything over a mug of "
+        "coffee, folksy and warm. Your jokes come from kitchens, pets, weather, "
+        "neighbours and Sunday chores, and never touch technology, science or the "
+        "internet. One relatable sentence that makes the whole table grin."
     ),
 }
 
 QWEN_DIRECT_SYSTEM = (
-    "You are a strict data-formatting pipeline. You will receive a persona and an image. "
-    "You MUST wrap your final caption inside exact <caption_output> and </caption_output> tags. "
-    "Do NOT output any thinking process. Do NOT output any conversational text. "
-    "Do NOT use Markdown formatting (no asterisks, no headers). Plain text only. "
-    "Respond ONLY IN ENGLISH."
+    "You are a calm and exacting visual narrator. You are given a persona brief and one "
+    "or more images. Study the images closely, then compose a single natural-English "
+    "caption that reflects what is actually visible, written in the voice implied by "
+    "the persona. Write in plain prose only: no markdown, no asterisks, no headings, "
+    "no lists, and no emoji. Do not narrate your reasoning or show intermediate steps. "
+    "Respond in English only. Your entire reply must be exactly one <final_caption> "
+    "element: the opening tag, the caption text, and the closing tag, with nothing "
+    "before the opening tag or after the closing tag."
 )
 
 QWEN_DIRECT_GUARD = (
-    "\n\n### CRITICAL INSTRUCTIONS ###\n"
-    "1. You MUST wrap your final caption inside exact <caption_output> and </caption_output> tags.\n"
-    "2. Do NOT put anything else inside the tags.\n"
-    "3. Do NOT explain your thinking or write a checklist."
+    "\n\nBefore you respond: put one plain-English caption between <final_caption> and "
+    "</final_caption>. No markdown, no lists, no commentary about how you wrote it. "
+    "If anything else creeps in, rewrite silently until only the tagged caption remains, "
+    "then stop."
 )
 
 # Tone exemplars from OTHER scenes (a balloon festival, a blacksmith), used only for
@@ -165,11 +175,18 @@ SINGLE_CAPTION_SCHEMA = {
 
 
 def _qwen_direct_prompt(style: str) -> str:
-    persona = QWEN_DIRECT_PERSONAS.get(style, f"Caption this in a {style} tone.")
+    persona = QWEN_DIRECT_PERSONAS.get(
+        style,
+        f"Write one English caption for this clip in a clear {style} voice.",
+    )
     return persona + QWEN_DIRECT_GUARD
 
 
 def _extract_caption_output(raw: str) -> str:
+    match = re.search(r"<final_caption>(.*?)</final_caption>", raw, re.DOTALL)
+    if match:
+        return match.group(1).strip()
+    # Legacy fallback if a model still emits the older tag name.
     match = re.search(r"<caption_output>(.*?)</caption_output>", raw, re.DOTALL)
     if match:
         return match.group(1).strip()

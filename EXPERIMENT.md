@@ -20,6 +20,6 @@ The original 0.90 recipe used `MAX_WORKERS=6` + parallel styles.
 ## Image
 ```
 ghcr.io/novicecoderinfinity/silver-octo-guacamole:single-shot
-digest: sha256:ac6e0231b714d43f49a69eee1d384e4356697ca2f46627d4f7adef4c351f6ead
-harness: 6 tasks @ 2vCPU/4GB OK (text styles after describe)
+digest: sha256:da1a53089d9db8bad5cef3719170d09737c30d5fd87fc8f9d5c8ecdd8bd1b930
+harness: 6 tasks @ 2vCPU/4GB, workers=3, 4 frames, text styles
 ```

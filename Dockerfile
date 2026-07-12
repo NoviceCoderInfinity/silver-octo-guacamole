@@ -14,9 +14,9 @@ COPY config.py video_utils.py llm_client.py pipeline.py main.py ./
 ARG FIREWORKS_API_KEY=""
 ENV FIREWORKS_API_KEY=${FIREWORKS_API_KEY}
 ENV FIREWORKS_MODEL_ID="accounts/fireworks/models/qwen3p7-plus"
-# Sequential by default: avoids Fireworks RPM stampedes (credits ≠ rate limit).
-# ~12 clips × 4 styles still fits the 10-minute harness budget.
-ENV MAX_WORKERS="1"
+# Two clips in parallel; styles inside each clip stay sequential.
+# Peak ≈ 2 Fireworks calls — safer than old 6×4 stampedes that caused 429s.
+ENV MAX_WORKERS="2"
 # Quiptionary-parity profile: Qwen direct vision, 4 frames @ 1024, XML captions.
 ARG CAPTION_ASSEMBLY="qwen_direct"
 ENV CAPTION_ASSEMBLY=${CAPTION_ASSEMBLY}

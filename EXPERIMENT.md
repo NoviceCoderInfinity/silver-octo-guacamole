@@ -1,30 +1,25 @@
-# Experiment: qwen-direct-v3-serial (rate-limit safe)
+# Experiment: qwen-direct-v3-w2 (rate-limit safe, mild parallelism)
 
-Branch: `experiments/qwen-direct-v3-serial`
+Branch: `experiments/qwen-direct-v3-serial` (w2 bump)
 
-## Why
-`:qwen-direct-v3` scored **0.93**, then a resubmit scored **~0.47** with the **same
-image digest**. Local re-run of that image showed Fireworks **429 rate limit** and
-empty captions. Credits remaining ($34) does **not** mean RPM/TPM headroom.
+## Diagnosis (Fireworks analytics)
+Credits remaining (~$34) ≠ RPM headroom. Analytics show **orange 429** spikes
+aligned with Jul 10–12 request bursts. That matches the old image:
+`MAX_WORKERS=6` × 4 parallel styles ≈ up to **24 concurrent** vision calls →
+empty captions → board collapse (~0.47) despite same 0.93 digest.
 
-v3 concurrency was:
-- `MAX_WORKERS=6` (clips in parallel)
-- 4 styles in parallel per clip
-→ up to **~24 concurrent** vision calls → easy 429.
-
-## IV (only change vs 0.93 recipe)
-1. `MAX_WORKERS=1` (clips sequential)
-2. Styles sequential inside `qwen_direct`
-3. Explicit 429/5xx backoff retries in `FireworksClient`
-
-**Unchanged:** model, prompts, 4@1024, temp 0.7, reasoning off, XML tags.
+## IV vs 0.93 recipe
+- **Same** model/prompts/4@1024/temp/reasoning/XML
+- `MAX_WORKERS=2` (clips)
+- Styles **sequential** (peak **2** concurrent API calls)
+- Explicit 429/5xx backoff retries
+- Rebuilt with a fresh Fireworks key (not committed; build-arg only)
 
 ## Pass/fail
-Official **≥0.90** keep; target restore **~0.93**. If still ≤0.50 with no 429s in
-logs, look elsewhere (wrong tag submitted, key auth, etc.).
+Target restore **≥0.90**, ideally ~**0.93**. If 429s persist, drop to workers=1.
 
 ## Image
 ```
-ghcr.io/novicecoderinfinity/silver-octo-guacamole:qwen-direct-v3-serial
-digest: sha256:68e27ab4d57ccad764eb5ad3e186e09261ce15e5ec44de192be165b8d5ed2b49
+ghcr.io/novicecoderinfinity/silver-octo-guacamole:qwen-direct-v3-w2
+digest: (pending push)
 ```

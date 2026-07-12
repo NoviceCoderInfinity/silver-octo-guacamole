@@ -285,15 +285,13 @@ def caption_video(video_url: str, styles: list[str], client: CaptionClient) -> d
 
     if assembly == "single_shot":
         def _run_single(s: str):
-            # Frames already grounded the description. Style calls are text-only so
-            # the graded run finishes under wall-clock (vision×4 styles was TIMEOUT).
             payload = client.generate_json(
                 _single_shot_prompt(s, description), SINGLE_CAPTION_SCHEMA,
-                frames_b64=None, max_tokens=500,
+                frames_b64=frames_b64, max_tokens=500,
             )
             return s, str(payload.get("caption", "")).strip()
 
-        # Parallel styles (original 0.90). Sequential was the TIMEOUT cause on rekey.
+        # Parallel multimodal specialists (original 0.90; high-tier key can take it).
         if valid_styles:
             with ThreadPoolExecutor(max_workers=len(valid_styles)) as executor:
                 futures = [executor.submit(_run_single, s) for s in valid_styles]

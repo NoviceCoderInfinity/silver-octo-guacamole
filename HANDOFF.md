@@ -3,7 +3,7 @@
 **Repo (graded only):** [NoviceCoderInfinity/silver-octo-guacamole](https://github.com/NoviceCoderInfinity/silver-octo-guacamole) (`personal` remote)  
 **Friend tree (read-only baseline):** `Arush777/himawari-fanboys` (`origin`) — do **not** push graded work there  
 **Champion (graded):** `:qwen-direct-v3` @ **0.93** official  
-**Working branch:** `submission-main` → tracks `personal/main`  
+**Working branch:** `submission-main` → tracks `personal/main` (**now = `:qwen-direct-v3` champion code**; no image rebuild in this sync)  
 **Date:** 2026-07-12 (updated after v3 = 0.93)
 
 ---

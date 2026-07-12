@@ -7,33 +7,20 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY config.py video_utils.py llm_client.py gemini_client.py pipeline.py main.py ./
+COPY config.py video_utils.py llm_client.py pipeline.py main.py ./
 
 # Track 2 rules: no env vars are injected by the harness — credentials ship inside
 # the image. The key is supplied at build time (--build-arg), never committed to git.
-ARG ANTHROPIC_API_KEY=""
-ENV ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
-
-ARG GEMINI_API_KEY=""
-ENV GEMINI_API_KEY=${GEMINI_API_KEY}
-
-# claude = frame describe (Arush-compatible); gemini = full-video describe front-end.
-ARG DESCRIBE_BACKEND="claude"
-ENV DESCRIBE_BACKEND=${DESCRIBE_BACKEND}
-
-ARG GEMINI_MODEL_ID="gemini-3-flash-preview"
-ENV GEMINI_MODEL_ID=${GEMINI_MODEL_ID}
-
-# Match formal_grounded experiment: uniform frames (scene_frames did not move leaderboard).
-ARG FRAME_SAMPLE_MODE="uniform"
-ENV FRAME_SAMPLE_MODE=${FRAME_SAMPLE_MODE}
-
-# formal_grounded = formal first, then lock other styles to its entities (best v2 arm).
-ARG CAPTION_MODE="formal_grounded"
-ENV CAPTION_MODE=${CAPTION_MODE}
-
-# Safety valve for the post-selection critique/repair pass (see config.py).
-ARG ENABLE_CRITIQUE_REPAIR="false"
-ENV ENABLE_CRITIQUE_REPAIR=${ENABLE_CRITIQUE_REPAIR}
+ARG FIREWORKS_API_KEY=""
+ENV FIREWORKS_API_KEY=${FIREWORKS_API_KEY}
+ENV FIREWORKS_MODEL_ID="accounts/fireworks/models/qwen3p7-plus"
+ENV MAX_WORKERS="6"
+# Quiptionary-parity profile: Qwen direct vision, 4 frames @ 1024, XML captions.
+ARG CAPTION_ASSEMBLY="qwen_direct"
+ENV CAPTION_ASSEMBLY=${CAPTION_ASSEMBLY}
+ENV MIN_FRAMES="4"
+ENV MAX_FRAMES="4"
+ENV FRAME_MAX_WIDTH="1024"
+ENV QWEN_DIRECT_TEMPERATURE="0.7"
 
 CMD ["python", "main.py"]

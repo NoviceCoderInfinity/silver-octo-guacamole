@@ -21,5 +21,5 @@ Target restore **≥0.90**, ideally ~**0.93**. If 429s persist, drop to workers=
 ## Image
 ```
 ghcr.io/novicecoderinfinity/silver-octo-guacamole:qwen-direct-v3-w2
-digest: (pending push)
+digest: sha256:d2733f6e3d2c612e856b8dd567c7d6e0822d44c37179382b3ba31afd36398ed7
 ```

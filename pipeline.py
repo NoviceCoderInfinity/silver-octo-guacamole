@@ -291,16 +291,14 @@ def caption_video(video_url: str, styles: list[str], client: CaptionClient) -> d
             )
             return s, str(payload.get("caption", "")).strip()
 
-        if valid_styles:
-            with ThreadPoolExecutor(max_workers=len(valid_styles)) as executor:
-                futures = [executor.submit(_run_single, s) for s in valid_styles]
-                for future in futures:
-                    try:
-                        style, caption = future.result()
-                        result[style] = caption
-                    except Exception:
-                        print(f"[pipeline] single-shot specialist failed: "
-                              f"{traceback.format_exc()}", file=sys.stderr)
+        # Sequential styles: this Anthropic org is ~5 RPM; parallel styles 429 hard.
+        for s in valid_styles:
+            try:
+                style, caption = _run_single(s)
+                result[style] = caption
+            except Exception:
+                print(f"[pipeline] single-shot specialist failed: "
+                      f"{traceback.format_exc()}", file=sys.stderr)
     else:
         # SVG 0.88 control path: best-of-2 + selector
         def _run_specialist(s: str):

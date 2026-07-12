@@ -28,5 +28,5 @@ and fall back to `:single-shot` (0.90) while investigating.
 ## Image
 ```
 ghcr.io/novicecoderinfinity/silver-octo-guacamole:qwen-direct-v3
-digest: (pending push)
+digest: sha256:57189838befccc6f71164988535a527b3167fdbcef18972eb59c909636e11a99
 ```

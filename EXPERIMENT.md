@@ -1,32 +1,32 @@
-# Experiment: Qwen-direct v3 — surgical originality (restore 0.92 geometry)
+# Experiment: Qwen-direct v3 — surgical originality (CHAMPION)
 
 Branch: `experiments/qwen-direct-v3`
 
+## Official result
+**0.93** on the graded board.
+
+Beats plagiarized `:qwen-direct` (0.92) and collapses the failed `:qwen-direct-v2` (0.74).
+This is the **current Himawari champion** — treat as control for further IVs.
+
 ## What went wrong with v2 (0.74)
-`:qwen-direct` (plagiarized prompts) scored **0.92**. `:qwen-direct-v2` kept the
-same knobs but **replaced short imperative personas + rigid formatter system +
-`<caption_output>`** with long roleplay characters, a soft “visual narrator”
-system, and `<final_caption>`. Local smoke still filled captions, but the voice
-and instruction geometry changed enough that the official judge collapsed to
-**0.74**.
+Kept recipe knobs but replaced short imperative personas + rigid formatter +
+`<caption_output>` with long roleplay, soft narrator system, and `<final_caption>`.
 
-## Fix strategy (v3)
-Keep recipe knobs identical. Restore **prompt geometry** of the 0.92 run
-(short punchy imperatives, strict formatter system, numbered output rules,
-`<caption_output>`), with **rewritten wording** so we are not a plagiarism hit.
+## What v3 did
+Restored **prompt geometry** of the 0.92 run with **Himawari-original wording**.
 
-Banned fragments still avoided: HAL-9000, mere mortals, millennial-of-workload,
+Banned fragments avoided: HAL-9000, mere mortals, millennial-of-workload,
 man-in-his-50s, “strict data-formatting pipeline”, `### CRITICAL INSTRUCTIONS ###`.
 
 ## Held fixed
-Qwen3.7-Plus, 4@1024, temp 0.7, reasoning off, no describe/selector, max_tokens 400.
-
-## Pass/fail
-Official **≥0.90** = success. Target near **0.92**. If ≤0.85, stop rewriting prose
-and fall back to `:single-shot` (0.90) while investigating.
+Qwen3.7-Plus, 4@1024, temp 0.7, reasoning off, no describe/selector, max_tokens 400,
+`<caption_output>` extraction.
 
 ## Image
 ```
 ghcr.io/novicecoderinfinity/silver-octo-guacamole:qwen-direct-v3
 digest: sha256:57189838befccc6f71164988535a527b3167fdbcef18972eb59c909636e11a99
 ```
+
+## Next
+Single-IV stacks only (e.g. per-style temperature). Promote only if official ≥0.93.

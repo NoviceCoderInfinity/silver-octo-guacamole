@@ -16,5 +16,6 @@ High-tier Anthropic key — do not throttle for RPM.
 ## Image
 ```
 ghcr.io/novicecoderinfinity/silver-octo-guacamole:single-shot
-digest: (pending push)
+digest: sha256:ff60fc273cb4a710e06f01a00023a82fbc10682cf0af97d863202336779d5153
+harness: 3/3 @ 2vCPU/4GB OK (full multimodal parallel)
 ```

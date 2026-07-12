@@ -285,9 +285,11 @@ def caption_video(video_url: str, styles: list[str], client: CaptionClient) -> d
 
     if assembly == "single_shot":
         def _run_single(s: str):
+            # Frames already grounded the description. Style calls are text-only so
+            # the graded run finishes under wall-clock (vision×4 styles was TIMEOUT).
             payload = client.generate_json(
                 _single_shot_prompt(s, description), SINGLE_CAPTION_SCHEMA,
-                frames_b64=frames_b64, max_tokens=500,
+                frames_b64=None, max_tokens=500,
             )
             return s, str(payload.get("caption", "")).strip()
 

@@ -15,7 +15,7 @@ ARG ANTHROPIC_API_KEY=""
 ENV ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
 # Graded wall-clock is tight (~10 min). Serial workers=1 timed out on the board.
 # Parallel clips + parallel styles (pipeline) match the original 0.90 recipe.
-ENV MAX_WORKERS="4"
+ENV MAX_WORKERS="6"
 ENV SECONDS_PER_FRAME="8.0"
 ENV MIN_FRAMES="4"
 ENV MAX_FRAMES="6"

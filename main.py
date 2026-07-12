@@ -11,7 +11,7 @@ from pipeline import caption_video
 
 INPUT_PATH = os.environ.get("INPUT_PATH", "/input/tasks.json")
 OUTPUT_PATH = os.environ.get("OUTPUT_PATH", "/output/results.json")
-MAX_WORKERS = int(os.environ.get("MAX_WORKERS", "4"))
+MAX_WORKERS = int(os.environ.get("MAX_WORKERS", "1"))
 
 
 def _build_client():
@@ -45,9 +45,14 @@ def main() -> int:
             captions = {s: "" for s in styles}
         return {"task_id": task_id, "captions": captions}
 
-    # Clips are independent; run them in parallel to stay inside the 10-minute cap.
-    with ThreadPoolExecutor(max_workers=max(1, min(MAX_WORKERS, len(tasks)))) as pool:
-        results = list(pool.map(run_task, tasks))
+    workers = max(1, min(MAX_WORKERS, len(tasks)))
+    print(f"[main] tasks={len(tasks)} max_workers={workers}", file=sys.stderr)
+    if workers == 1:
+        # Sequential clips: avoids Fireworks RPM stampedes (credits ≠ rate limit).
+        results = [run_task(t) for t in tasks]
+    else:
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            results = list(pool.map(run_task, tasks))
 
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, "w") as f:

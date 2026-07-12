@@ -1,32 +1,30 @@
-# Experiment: Qwen-direct v3 — surgical originality (restore 0.92 geometry)
+# Experiment: qwen-direct-v3-serial (rate-limit safe)
 
-Branch: `experiments/qwen-direct-v3`
+Branch: `experiments/qwen-direct-v3-serial`
 
-## What went wrong with v2 (0.74)
-`:qwen-direct` (plagiarized prompts) scored **0.92**. `:qwen-direct-v2` kept the
-same knobs but **replaced short imperative personas + rigid formatter system +
-`<caption_output>`** with long roleplay characters, a soft “visual narrator”
-system, and `<final_caption>`. Local smoke still filled captions, but the voice
-and instruction geometry changed enough that the official judge collapsed to
-**0.74**.
+## Why
+`:qwen-direct-v3` scored **0.93**, then a resubmit scored **~0.47** with the **same
+image digest**. Local re-run of that image showed Fireworks **429 rate limit** and
+empty captions. Credits remaining ($34) does **not** mean RPM/TPM headroom.
 
-## Fix strategy (v3)
-Keep recipe knobs identical. Restore **prompt geometry** of the 0.92 run
-(short punchy imperatives, strict formatter system, numbered output rules,
-`<caption_output>`), with **rewritten wording** so we are not a plagiarism hit.
+v3 concurrency was:
+- `MAX_WORKERS=6` (clips in parallel)
+- 4 styles in parallel per clip
+→ up to **~24 concurrent** vision calls → easy 429.
 
-Banned fragments still avoided: HAL-9000, mere mortals, millennial-of-workload,
-man-in-his-50s, “strict data-formatting pipeline”, `### CRITICAL INSTRUCTIONS ###`.
+## IV (only change vs 0.93 recipe)
+1. `MAX_WORKERS=1` (clips sequential)
+2. Styles sequential inside `qwen_direct`
+3. Explicit 429/5xx backoff retries in `FireworksClient`
 
-## Held fixed
-Qwen3.7-Plus, 4@1024, temp 0.7, reasoning off, no describe/selector, max_tokens 400.
+**Unchanged:** model, prompts, 4@1024, temp 0.7, reasoning off, XML tags.
 
 ## Pass/fail
-Official **≥0.90** = success. Target near **0.92**. If ≤0.85, stop rewriting prose
-and fall back to `:single-shot` (0.90) while investigating.
+Official **≥0.90** keep; target restore **~0.93**. If still ≤0.50 with no 429s in
+logs, look elsewhere (wrong tag submitted, key auth, etc.).
 
 ## Image
 ```
-ghcr.io/novicecoderinfinity/silver-octo-guacamole:qwen-direct-v3
-digest: sha256:57189838befccc6f71164988535a527b3167fdbcef18972eb59c909636e11a99
+ghcr.io/novicecoderinfinity/silver-octo-guacamole:qwen-direct-v3-serial
+digest: (pending push)
 ```

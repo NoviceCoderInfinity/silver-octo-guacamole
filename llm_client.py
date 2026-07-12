@@ -9,19 +9,49 @@ which both slows down every call and risks truncating the response (mid-thought)
 the direct answer with no chain-of-thought preamble to strip.
 """
 import json
+import random
+import sys
+import time
 
 import anthropic
-from openai import OpenAI
+from openai import APIStatusError, OpenAI, RateLimitError
 
 
 def _content_of(response) -> str:
     return response.choices[0].message.content.strip()
 
 
+def _with_retries(call, *, label: str, attempts: int = 6):
+    """Retry Fireworks calls on 429/5xx. Credits left ≠ rate-limit headroom."""
+    delay = 1.5
+    last_exc = None
+    for i in range(attempts):
+        try:
+            return call()
+        except RateLimitError as e:
+            last_exc = e
+        except APIStatusError as e:
+            if e.status_code not in (429, 500, 502, 503, 504):
+                raise
+            last_exc = e
+        if i == attempts - 1:
+            break
+        sleep_for = delay + random.uniform(0, 0.5)
+        print(
+            f"[llm] {label} retry {i + 1}/{attempts - 1} after {sleep_for:.1f}s "
+            f"({type(last_exc).__name__})",
+            file=sys.stderr,
+        )
+        time.sleep(sleep_for)
+        delay = min(delay * 2, 20.0)
+    raise last_exc
+
+
 class FireworksClient:
     def __init__(self, api_key: str, model_id: str, base_url: str, timeout: float = 120.0):
         self.model_id = model_id
-        self.client = OpenAI(api_key=api_key, base_url=base_url, timeout=timeout, max_retries=3)
+        # SDK retries are shallow; we add explicit 429 backoff above.
+        self.client = OpenAI(api_key=api_key, base_url=base_url, timeout=timeout, max_retries=1)
 
     def describe_frames(self, frames_b64: list[str], prompt: str, max_tokens: int = 1024,
                         temperature: float | None = None) -> str:
@@ -57,7 +87,11 @@ class FireworksClient:
         }
         if temperature is not None:
             kwargs["temperature"] = temperature
-        response = self.client.chat.completions.create(**kwargs)
+
+        def _call():
+            return self.client.chat.completions.create(**kwargs)
+
+        response = _with_retries(_call, label="fireworks.generate_text")
         return _content_of(response)
 
     def generate_json(self, prompt: str, schema: dict, frames_b64: list[str] | None = None,
@@ -86,7 +120,11 @@ class FireworksClient:
         }
         if temperature is not None:
             kwargs["temperature"] = temperature
-        response = self.client.chat.completions.create(**kwargs)
+
+        def _call():
+            return self.client.chat.completions.create(**kwargs)
+
+        response = _with_retries(_call, label="fireworks.generate_json")
         return json.loads(_content_of(response))
 
 
@@ -95,7 +133,7 @@ def _text_of(response) -> str:
 
 
 class ClaudeClient:
-    """Claude/Sonnet backend for the graded captioning pipeline."""
+    """Claude/Sonnet backend for the captioning pipeline (non-qwen assemblies)."""
 
     def __init__(self, api_key: str, model_id: str, timeout: float = 120.0):
         self.model_id = model_id
@@ -121,11 +159,7 @@ class ClaudeClient:
 
     def generate_json(self, prompt: str, schema: dict, frames_b64: list[str] | None = None,
                       max_tokens: int = 1024, temperature: float | None = None) -> dict:
-        """Generate a JSON object matching `schema`.
-
-        If `frames_b64` is given, frames are included in the same request. The graded
-        pipeline uses text-only JSON rewriting; judge.py uses the frame-aware path.
-        """
+        """Generate a JSON object matching `schema`."""
         content = [
             {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": b64}}
             for b64 in (frames_b64 or [])
@@ -144,10 +178,4 @@ class ClaudeClient:
 
 
 class ClaudeJudgeClient(ClaudeClient):
-    """Claude backend for judge.py.
-
-    Scoring captions with another model family can reduce self-preference bias
-    (a model tends to rate its own outputs generously).
-    Implements the same `generate_json(prompt, schema, frames_b64=None)` interface as
-    the generator clients so judge.py can use any backend interchangeably.
-    """
+    """Claude backend for judge.py."""

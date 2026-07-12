@@ -380,16 +380,14 @@ def caption_video(video_url: str, styles: list[str], client: CaptionClient) -> d
                       file=sys.stderr)
             return s, caption
 
-        if valid_styles:
-            with ThreadPoolExecutor(max_workers=len(valid_styles)) as executor:
-                futures = [executor.submit(_run_qwen, s) for s in valid_styles]
-                for future in futures:
-                    try:
-                        style, caption = future.result()
-                        result[style] = caption
-                    except Exception:
-                        print(f"[pipeline] qwen_direct style call failed: "
-                              f"{traceback.format_exc()}", file=sys.stderr)
+        # Sequential styles: 6 clips × 4 parallel styles was enough to 429 Fireworks.
+        for s in valid_styles:
+            try:
+                style, caption = _run_qwen(s)
+                result[style] = caption
+            except Exception:
+                print(f"[pipeline] qwen_direct style call failed: "
+                      f"{traceback.format_exc()}", file=sys.stderr)
     elif assembly == "direct":
         def _run_direct(s: str):
             payload = client.generate_json(

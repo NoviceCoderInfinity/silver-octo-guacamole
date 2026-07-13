@@ -9,5 +9,6 @@ Never-empty parsing/fill on top of frozen qwen-direct-v3 geometry.
 ## Image
 ```
 ghcr.io/novicecoderinfinity/silver-octo-guacamole:win-hardened
-digest: (pending)
+digest: sha256:382ec806832c2ad10dbc664e3951db0396915496122054e36a63d90cd268e5ff
+harness: 3/3 zero-short @ 2vCPU/4GB
 ```

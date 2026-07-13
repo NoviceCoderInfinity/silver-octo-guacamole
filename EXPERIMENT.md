@@ -1,32 +1,30 @@
-# Experiment: Qwen-direct v3 — surgical originality (CHAMPION)
+# Experiment: MiniMax-direct (board-pattern climb)
 
-Branch: `experiments/qwen-direct-v3`
+Branch: `experiments/minimax-direct`
+Tag: `ghcr.io/novicecoderinfinity/silver-octo-guacamole:minimax-direct`
 
-## Official result
-**0.93** on the graded board.
+## Why this plan
+- Himawari Claude `:single-shot` → **0.79** (ops/recipe churn under one tag)
+- Our Qwen-direct-v3 hit **0.93** then collapsed on Fireworks 429 empties
+- Quiptionary (Qwen) now **0.81** on board — Qwen ceiling looks contested
+- Current leaders (PADAYON 0.92, SwiftCap/VeloCap 0.91) use **Fireworks MiniMax**,
+  dense frames, **one vision call → all 4 styles JSON**, no describe/selector
 
-Beats plagiarized `:qwen-direct` (0.92) and collapses the failed `:qwen-direct-v2` (0.74).
-This is the **current Himawari champion** — treat as control for further IVs.
+## Recipe
+1. Sample **16 frames @ 640px** (VeloCap uses 24; we trade a bit for wall-clock)
+2. **MiniMax M3** one multimodal call → JSON `{formal, sarcastic, humorous_tech, humorous_non_tech}`
+3. Validate length + style distinctness; retry up to 3×
+4. Fill gaps: **Qwen-direct** (our 0.93 personas) → **Claude** multimodal
+5. `MAX_WORKERS=5`, bake Fireworks + Anthropic keys
 
-## What went wrong with v2 (0.74)
-Kept recipe knobs but replaced short imperative personas + rigid formatter +
-`<caption_output>` with long roleplay, soft narrator system, and `<final_caption>`.
-
-## What v3 did
-Restored **prompt geometry** of the 0.92 run with **Himawari-original wording**.
-
-Banned fragments avoided: HAL-9000, mere mortals, millennial-of-workload,
-man-in-his-50s, “strict data-formatting pipeline”, `### CRITICAL INSTRUCTIONS ###`.
-
-## Held fixed
-Qwen3.7-Plus, 4@1024, temp 0.7, reasoning off, no describe/selector, max_tokens 400,
-`<caption_output>` extraction.
+## Learnings applied
+- Don’t mutate `:single-shot`; ship a **new tag**
+- Don’t serialize for RPM fear when key is healthy
+- Don’t empty on failure — always fill
+- Match winner geometry (MiniMax one-shot) with Himawari-original briefs
 
 ## Image
 ```
-ghcr.io/novicecoderinfinity/silver-octo-guacamole:qwen-direct-v3
-digest: sha256:57189838befccc6f71164988535a527b3167fdbcef18972eb59c909636e11a99
+ghcr.io/novicecoderinfinity/silver-octo-guacamole:minimax-direct
+digest: (pending)
 ```
-
-## Next
-Single-IV stacks only (e.g. per-style temperature). Promote only if official ≥0.93.

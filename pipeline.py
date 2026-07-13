@@ -169,7 +169,7 @@ def _qwen_direct_prompt(style: str) -> str:
 
 
 def _extract_caption_output(raw: str) -> str:
-    # Primary tag used by the 0.92 recipe geometry.
+    # Primary tag used by the 0.92/0.93 recipe geometry.
     match = re.search(r"<caption_output>(.*?)</caption_output>", raw, re.DOTALL)
     if match:
         return match.group(1).strip()
@@ -177,7 +177,45 @@ def _extract_caption_output(raw: str) -> str:
     match = re.search(r"<final_caption>(.*?)</final_caption>", raw, re.DOTALL)
     if match:
         return match.group(1).strip()
+    # CRITICAL: if the model omits tags (common under load/reasoning drift), do NOT
+    # return empty — that zeros the cell and is the likely cause of board ~0.43.
+    text = (raw or "").strip()
+    text = re.sub(r"^```(?:\w+)?\s*", "", text)
+    text = re.sub(r"\s*```$", "", text)
+    # Drop obvious chain-of-thought prefixes if present
+    for marker in ("</think>", "</thinking>", "Final answer:", "Caption:"):
+        if marker.lower() in text.lower():
+            idx = text.lower().rfind(marker.lower())
+            text = text[idx + len(marker) :].strip()
+    # Keep first 1–3 sentences worth; reject tiny stubs
+    if len(text.split()) >= 6:
+        return text.strip().strip('"')
     return ""
+
+
+def _claude_fill_styles(styles: list[str], frames_b64: list[str]) -> dict[str, str]:
+    """Never-empty backup: Claude multimodal one caption per missing style."""
+    if not getattr(config, "ANTHROPIC_API_KEY", ""):
+        return {}
+    from llm_client import ClaudeClient
+
+    client = ClaudeClient(config.ANTHROPIC_API_KEY, config.CLAUDE_MODEL_ID)
+    out: dict[str, str] = {}
+
+    def one(s: str):
+        payload = client.generate_json(
+            _single_shot_prompt(s, "Use the attached frames as ground truth."),
+            SINGLE_CAPTION_SCHEMA,
+            frames_b64=frames_b64,
+            max_tokens=500,
+        )
+        return s, str(payload.get("caption", "")).strip()
+
+    with ThreadPoolExecutor(max_workers=min(4, len(styles))) as pool:
+        for s, cap in pool.map(one, styles):
+            if cap:
+                out[s] = cap
+    return out
 
 
 def _exemplar_block(style: str) -> str:
@@ -371,12 +409,12 @@ def caption_video(video_url: str, styles: list[str], client: CaptionClient) -> d
                 frames_b64,
                 _qwen_direct_prompt(s),
                 system=QWEN_DIRECT_SYSTEM,
-                max_tokens=400,
+                max_tokens=500,
                 temperature=temp,
             )
             caption = _extract_caption_output(raw)
             if not caption:
-                print(f"[pipeline] qwen_direct missing tags for {s}: {raw[:200]!r}",
+                print(f"[pipeline] qwen_direct unusable raw for {s}: {raw[:200]!r}",
                       file=sys.stderr)
             return s, caption
 
@@ -390,6 +428,19 @@ def caption_video(video_url: str, styles: list[str], client: CaptionClient) -> d
                     except Exception:
                         print(f"[pipeline] qwen_direct style call failed: "
                               f"{traceback.format_exc()}", file=sys.stderr)
+
+        # Never-empty gate: Claude multimodal fill for any short/missing style.
+        missing = [s for s in valid_styles if len(str(result.get(s, "")).split()) < 6]
+        if missing:
+            print(f"[pipeline] claude fill for {missing}", file=sys.stderr)
+            try:
+                filled = _claude_fill_styles(missing, frames_b64)
+                for s in missing:
+                    if filled.get(s):
+                        result[s] = filled[s]
+            except Exception:
+                print(f"[pipeline] claude fill failed: {traceback.format_exc()}",
+                      file=sys.stderr)
     elif assembly == "direct":
         def _run_direct(s: str):
             payload = client.generate_json(

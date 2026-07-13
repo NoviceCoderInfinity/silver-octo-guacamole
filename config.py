@@ -8,9 +8,8 @@ import os
 
 from dotenv import load_dotenv
 
-# A stale shell value must not shadow the explicitly configured local .env key.
-# Submitted images do not contain .env, so their baked environment is unaffected.
-load_dotenv(override=True)
+# Docker ENV / explicit exports must win over leftover local .env.
+load_dotenv(override=False)
 
 FIREWORKS_API_KEY = os.environ.get("FIREWORKS_API_KEY", "")
 # Primary generator for this experiment: Qwen3.7-Plus via Fireworks (Quiptionary-class).

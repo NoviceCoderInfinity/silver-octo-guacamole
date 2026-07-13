@@ -9,15 +9,16 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY config.py video_utils.py llm_client.py pipeline.py main.py ./
 
-# Track 2 rules: no env vars are injected by the harness — credentials ship inside
-# the image. The key is supplied at build time (--build-arg), never committed to git.
+# Track 2: bake both keys — Qwen primary, Claude never-empty fill.
 ARG FIREWORKS_API_KEY=""
+ARG ANTHROPIC_API_KEY=""
 ENV FIREWORKS_API_KEY=${FIREWORKS_API_KEY}
+ENV ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+
 ENV FIREWORKS_MODEL_ID="accounts/fireworks/models/qwen3p7-plus"
-ENV MAX_WORKERS="6"
-# Quiptionary-parity profile: Qwen direct vision, 4 frames @ 1024, XML captions.
-ARG CAPTION_ASSEMBLY="qwen_direct"
-ENV CAPTION_ASSEMBLY=${CAPTION_ASSEMBLY}
+ENV CAPTION_ASSEMBLY="qwen_direct"
+# Lower concurrency than the 0.43 collapse; styles still parallel within a clip.
+ENV MAX_WORKERS="2"
 ENV MIN_FRAMES="4"
 ENV MAX_FRAMES="4"
 ENV FRAME_MAX_WIDTH="1024"

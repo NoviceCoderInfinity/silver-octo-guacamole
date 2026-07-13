@@ -26,5 +26,6 @@ Tag: `ghcr.io/novicecoderinfinity/silver-octo-guacamole:minimax-direct`
 ## Image
 ```
 ghcr.io/novicecoderinfinity/silver-octo-guacamole:minimax-direct
-digest: (pending)
+digest: sha256:3e7f8bf996131ff40a2dafda70f5e0d115d4be43e402e21153969abb9cd8a991
+harness: 3/3 @ 2vCPU/4GB
 ```
